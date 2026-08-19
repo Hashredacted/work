@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Placeholder | Raizada Compu Soft</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .admin-placeholder-container {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .placeholder-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--accent-gradient);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+    }
+    .badge-dev {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .admin-preview-shell {
+      margin-top: 40px;
+      width: 100%;
+      max-width: 800px;
+      background: var(--bg-card);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-contacts">
+        <span class="partner-badge">Raizada Compu Soft - Admin Portal</span>
+      </div>
+      <div class="top-right">
+        <a href="index.html" class="admin-link">← Back to Homepage</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="container admin-placeholder-container">
+    <div class="placeholder-icon">🛡️</div>
+    <span class="badge-dev">🚧 Coming Soon / Under Development</span>
+    <h1 style="font-size: 36px; font-weight: 800; margin-bottom: 12px;">Admin Management Portal</h1>
+    <p style="color: var(--text-secondary); max-width: 540px; margin-bottom: 28px;">
+      The Raizada Compusoft Admin Gateway for managing client demo requests, incoming software leads, AMC renewal tracking, and HSN catalog updates will be activated here after client approval.
+    </p>
+
+    <div style="display: flex; gap: 16px;">
+      <a href="index.html" class="btn-primary">Return to Main Homepage</a>
+    </div>
+
+    <!-- Preview Shell -->
+    <div class="admin-preview-shell">
+      <h3 style="margin-bottom: 12px; color: var(--text-muted);">[ Mockup Preview Shell ]</h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+        <div style="background: var(--bg-primary); padding: 16px; border-radius: 8px;">
+          <small style="color: var(--text-muted);">Incoming Leads</small>
+          <div style="font-size: 20px; font-weight: 700; color: var(--accent-secondary); margin-top: 4px;">28 New</div>
+        </div>
+        <div style="background: var(--bg-primary); padding: 16px; border-radius: 8px;">
+          <small style="color: var(--text-muted);">Pending Demos</small>
+          <div style="font-size: 20px; font-weight: 700; color: var(--marg-orange); margin-top: 4px;">12 Scheduled</div>
+        </div>
+        <div style="background: var(--bg-primary); padding: 16px; border-radius: 8px;">
+          <small style="color: var(--text-muted);">Active AMCs</small>
+          <div style="font-size: 20px; font-weight: 700; color: var(--success-color); margin-top: 4px;">450+ Clients</div>
+        </div>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted);">Full dashboard functionality will be rendered upon backend / admin phase release.</p>
+    </div>
+  </main>
+
+</body>
+</html>
