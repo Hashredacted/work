@@ -677,46 +677,91 @@ ul {
   color: var(--text-secondary);
 }
 
-/* Phone Mockup */
+/* Phone Mockup (legacy, kept for reference) */
 .phone-mockup-wrapper {
   display: flex;
   justify-content: center;
 }
 
-.phone-frame {
-  width: 320px;
-  background: #000;
-  border-radius: 40px;
-  padding: 14px;
-  border: 4px solid #334155;
+/* App Screenshot Card */
+.app-screenshot-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.app-screenshot-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
   box-shadow: var(--shadow-lg);
 }
 
-.phone-screen {
-  background: var(--bg-card);
-  border-radius: 28px;
-  padding: 24px 20px;
-  min-height: 480px;
+.app-screenshot-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  flex-wrap: wrap;
+}
+
+.app-screenshot-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.app-screenshot-img-wrap {
+  width: 100%;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 280px;
+}
+
+#app-screenshot-img {
+  width: 100%;
+  height: auto;
+  max-height: 360px;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+#app-screenshot-img.fade-out {
+  opacity: 0;
+}
+
+.app-screenshot-features {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  border-top: 1px solid var(--border-color);
 }
 
-.phone-top-notch {
-  width: 100px;
-  height: 18px;
-  background: #000;
-  margin: 0 auto 20px;
-  border-radius: 0 0 10px 10px;
+.app-screenshot-features li {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.phone-screen-header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.phone-screen-header h4 {
-  font-size: 18px;
-  color: var(--text-primary);
+.app-screenshot-features li .icon {
+  color: var(--success-color);
+  font-weight: bold;
 }
 
 .phone-badge {
@@ -726,29 +771,6 @@ ul {
   padding: 2px 10px;
   border-radius: 10px;
   display: inline-block;
-  margin-top: 4px;
-}
-
-.phone-features-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.phone-features-list li {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.phone-features-list li .icon {
-  color: var(--success-color);
-  font-weight: bold;
 }
 
 /* HSN / SAC Code Quick Finder Widget */
