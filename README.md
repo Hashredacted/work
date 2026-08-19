@@ -7,7 +7,7 @@ This repository contains the clean, modernized, and responsive homepage web appl
 ## 📋 Features List (Strictly Matched to Original Website)
 
 ### 1. Top Bar & Branding
-- **Official Branding**: Raizada Compu Soft - Authorized Marg® ERP Partner.
+- **Official Branding**: Raizada CompuSoft.
 - **Physical Address**: *Shop No. 16, 1st Floor, C.M. Mall, Railway Road, Aligarh*.
 - **Direct Contacts**: Phone numbers (`+91 8938077776`, `9690277776`, `9927026557`) & Email (`raizadacompusoft@gmail.com`).
 - **Admin Gateway**: Access link to the Admin Portal placeholder page (`admin.html`).
