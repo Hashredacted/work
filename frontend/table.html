@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Feature Comparison – Basic vs Silver vs Gold | Raizada CompuSoft</title>
+    <meta name="description" content="Full feature comparison chart of Marg ERP 9+ editions: Basic, Silver and Gold. See which features are included in each plan.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        :root {
+            --bg: #0f1117;
+            --bg-surface: #1a1d27;
+            --bg-card: #21253a;
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f0f2ff;
+            --text-secondary: #9ca3b8;
+            --text-muted: #5a6480;
+            --accent: #6366f1;
+            --accent-2: #a78bfa;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #f59e0b;
+            --header-bg: linear-gradient(135deg, #1e2a6e, #3b3fa8);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* ── Top Bar ── */
+        .top-bar {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .top-bar-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .top-bar-title span {
+            color: var(--accent-2);
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .back-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* ── Page Header ── */
+        .page-header {
+            text-align: center;
+            padding: 56px 20px 32px;
+            background: radial-gradient(ellipse at top, rgba(99,102,241,0.12) 0%, transparent 70%);
+        }
+        .page-header h1 {
+            font-size: clamp(22px, 4vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+        .page-header h1 span { color: var(--accent-2); }
+        .page-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* ── Table Wrapper ── */
+        .table-wrapper {
+            max-width: 1100px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            overflow-x: auto;
+        }
+
+        /* ── Table ── */
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .table thead tr {
+            background: var(--header-bg);
+        }
+        .table thead th {
+            padding: 16px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid rgba(255,255,255,0.15);
+        }
+        .table thead th:first-child { text-align: left; }
+        .table thead th:not(:first-child) { text-align: center; }
+
+        /* Alternating Rows */
+        .table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.025); }
+        .table tbody tr:nth-child(even) { background: transparent; }
+        .table tbody tr:hover { background: rgba(99,102,241,0.08); }
+
+        .table tbody td {
+            padding: 13px 18px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .table tbody td:first-child {
+            text-align: left;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .table tbody tr:last-child td { border-bottom: none; }
+
+        /* ── Icons ── */
+        .fa-check { color: var(--green); font-size: 16px; }
+        .fa-times  { color: var(--red);   font-size: 16px; }
+        .fa-angle-double-right { color: var(--accent-2); }
+
+        /* ── Users Cell ── */
+        td b {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        td span {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── S.No column ── */
+        .table thead th:first-child,
+        .table tbody td:first-child {
+            min-width: 52px;
+        }
+        .table thead th:nth-child(2),
+        .table tbody td:nth-child(2) {
+            text-align: left;
+        }
+
+        /* ── Footer Note ── */
+        .footer-note {
+            text-align: center;
+            padding: 0 20px 48px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        .footer-note a { color: var(--accent-2); text-decoration: none; }
+        .footer-note a:hover { text-decoration: underline; }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .top-bar { padding: 12px 16px; }
+            .table thead th, .table tbody td { padding: 10px 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="top-bar-title">Marg® ERP 9+ &mdash; <span>Software Feature Comparison</span></div>
+        <a href="pricing.html#panel-erp" class="back-btn">
+            <i class="fa fa-arrow-left"></i> Back to Pricing
+        </a>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Software Comparison <span>Features Chart</span></h1>
+        <p>Detailed feature-by-feature comparison of Marg ERP 9+ &mdash; Basic, Silver &amp; Gold editions.</p>
+    </div>
+
+    <div class="table-wrapper">
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="7%" style="text-align:center">S. No.</th>
+                <th width="43%" style="text-align:center">Features</th>
+                <th width="15%" class="text-center">Basic</th>
+                <th width="15%" class="text-center">Silver</th>
+                <th width="15%" class="text-center">Gold</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Inventory Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Multi Store Management (Godown Management)</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Sales / Purchase Invoice</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Sales Order / Purchase Order & Challan Entry (Delivery Challan) Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Counter Sale Entry & Temporary Purchase Entry</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Sale / Purchase Brk/Exp Return & Replacement Issue / Receive Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Price Difference Sale / Purchase Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Conversion Entry Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Purchase Indent & Quotation Entry Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Consignment Issue & Receive Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>All Inventory Voucher</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>Secondary Stock Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Default Discount / Maximum/ Minimum Discount Management Party, Item, Company Wise, etc.</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>Alternet /Parameter/Substitute wise Searching system</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>Item wise Goods Account (Item Wise Trading A/c Management)</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>Pharmacy H1 & Narcotics Reports's</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>Item Wise Manufacturing Date</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td>Item Wise Expiry Date</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td>Expiry Stock Reports</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>Ask Bags wise Qty. in Sale/Purchase/Both for Krishi Mandi etc.</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>Ask Item wise Expenses for Krishi Mandi etc.</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td>Print Shortage Item Detail in Bill</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>Advance Rate Management (Rate Add/Less on F6 Key and other key)</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>Separator Batch Maintain e.g. @#*</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>Separator Batch Split Auto/Sami/Manual 2nd etc..</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td>New Launched Items & Loading</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td>Shortage Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>Temporary Credit Limit</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>Credit Limit Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>Accounting Management</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td>Post Dated (P.D.C.) & Advance Cheques Issue and Receive Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td>Sales Man (M.R.) / Area / Rout wise Reporting</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td>Barcode / Label Printing</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td>Bank Reconciliation System</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>35</td>
+                <td>Outstanding Report</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>36</td>
+                <td>Interest & Collection Report</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>37</td>
+                <td>Category / Salt Master Inventory and Reporting system</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>38</td>
+                <td>Auto generate different bill</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>39</td>
+                <td>Operator Power & Boundations</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>40</td>
+                <td>Operator Log Book Report & Operator Worksheet</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>41</td>
+                <td>Self-configurable invoice formats</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>42</td>
+                <td>Inventory & Accounting Approval System</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>43</td>
+                <td>Show Pending Kot /Challans</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>44</td>
+                <td>Cashier Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>45</td>
+                <td>GST e-Return</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>46</td>
+                <td>Reports Manager (MIS Report)</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>47</td>
+                <td>Budget & Cost Centers Management System</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>48</td>
+                <td>Target</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>49</td>
+                <td>Bank Letter,Packing Slip,Conver Note,Gatepass,Label,Barcode printing (Only Invoice Printing)</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>Side Display At the time Of Billing</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>51</td>
+                <td>Show Dashboard</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Shortcut Keys (Short Buttons) & Recently view reports</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>53</td>
+                <td>Sales Bundle Pack Formula (Set Of Bundle) Management & Bundle Formula Loadings In Billing and also
+                    Suggested Item Billing.</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>54</td>
+                <td>Allowed F3 & F4 Key in Bill</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>55</td>
+                <td>Take Sale Return in sale bill thru * Key</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>56</td>
+                <td>Show Last & Old Deals at the time of billing</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>57</td>
+                <td>Show Last & Old Deals in Purchase</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>58</td>
+                <td>Group Wise Scheme Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>59</td>
+                <td>Special Rates / Discounts Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>60</td>
+                <td>Bill Convert on Amount/Days bases</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>61</td>
+                <td>Show Graphs</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>62</td>
+                <td>Vertual Keyboard System</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>63</td>
+                <td>Vertual / Popup Item Billing</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>65</td>
+                <td>Chit fund Kitty (Kitty/Committee) & Mortgage (Girvi) Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>66</td>
+                <td>Caret Issue & Receive Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>66</td>
+                <td>Out Patient Department (OPD/Reki) Management</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>67</td>
+                <td>Cursor To Report</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>68</td>
+                <td>SMS & E-Mail System</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>69</td>
+                <td>Cloud Backup</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>70</td>
+                <td>WhatsApp</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>71</td>
+                <td>Business on Google Map</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>72</td>
+                <td>Margpay Intrigration</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>73</td>
+                <td>Direct calling/Order Calling</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>74</td>
+                <td>Go digital</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>75</td>
+                <td>ICICI banking</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>76</td>
+                <td>PDF Bill Import</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>77</td>
+                <td>Audit Trail</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>78</td>
+                <td>Order CRM</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>79</td>
+                <td>Merge Report</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>80</td>
+                <td>Super Pack/Home Edition</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>81</td>
+                <td>Home delivery</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>82</td>
+                <td>Bill Tagging</td>
+                <td class="no"><i class="fa fa-times"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>83</td>
+                <td>Financial Year Backup on Mail</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>84</td>
+                <td>E-Business</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>85</td>
+                <td>Salesman App</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>86</td>
+                <td>Pharmanxt Free Drug Helpline</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>87</td>
+                <td>Data Analysis Dashboard</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>88</td>
+                <td>Stock & Sales e-Mail Scheduler</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>89</td>
+                <td>Collaborative Commerce</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>90</td>
+                <td>Connected Banking</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>91</td>
+                <td>ERP to ERP</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>92</td>
+                <td>Pass Ki Dukaan</td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+                <td class="yes"><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>93</td>
+                <td>Users</td>
+                <td>
+                    <b style="margin-bottom: 16px; display: inline-block;"> 1 User Full Rights</b>
+                    <span
+                        style="display: inline-block; margin-bottom: 6px; text-align: left; padding-left: 20px; position: relative;"><i
+                            style="position: absolute; left: 0;" class="fa fa-angle-double-right"
+                            aria-hidden="true"></i> ₹
+                        3000/- per extra user </span>
+                    <span
+                        style="display: inline-block; margin-bottom: 16px; text-align: left;  padding-left: 20px; position: relative;"><i
+                            style="position: absolute; left: 0;" class="fa fa-angle-double-right"
+                            aria-hidden="true"></i>
+                        Maximum 2 users</span>
+
+                    <span
+                        style="display: inline-block; margin-bottom: 6px; text-align: left;  padding-left: 20px; position: relative;"><i
+                            style="position: absolute; left: 0;" class="fa fa-angle-double-right"
+                            aria-hidden="true"></i> ₹
+                        3000/- per extra Company </span>
+                    <span
+                        style="display: inline-block; margin-bottom: 10px; text-align: left;  padding-left: 20px; position: relative;"><i
+                            style="position: absolute; left: 0;" class="fa fa-angle-double-right"
+                            aria-hidden="true"></i>
+                        Maximum 2 Company</span>
+                </td>
+                <td>
+                    <b style=" display: inline-block; margin-bottom: 6px;"> 1 User Full Rights</b>
+                    <b style="margin-bottom: 10px; display: inline-block;">1 User for View only</b>
+                    <span
+                        style="display: inline-block; margin-bottom: 10px; text-align: left;  padding-left: 20px; position: relative;"><i
+                            style="position: absolute; left: 0;" class="fa fa-angle-double-right"
+                            aria-hidden="true"></i> ₹
+                        3000/- per extra user</span>
+                    <span
+                        style="display: inline-block; margin-bottom: 10px; text-align: left;  padding-left: 20px; position: relative;"><i
+                            style="position: absolute; left: 0;" class="fa fa-angle-double-right"
+                            aria-hidden="true"></i> ₹
+                        3000/- per extra Company</span>
+                </td>
+                <td>
+                    <b>Unlimited Users</b>
+                    <b>Unlimited Extra Company</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div><!-- /table-wrapper -->
+
+    <div class="footer-note">
+        <p>*Customisation extra &nbsp;/&nbsp; We do not sell through online portals.<br>
+           No Service/support is available if you buy Marg ERP from those sources.<br>
+           <a href="pricing.html">&#8592; Back to Pricing Plans</a></p>
+    </div>
+
+</body>
+
+</html>

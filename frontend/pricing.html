@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Plans | Raizada CompuSoft – Marg® ERP Software Partner</title>
+  <meta name="description"
+    content="View transparent pricing for Marg ERP 9+ Software, MargCloud hosting, Mobile Apps, and GST/AMC services from Raizada CompuSoft, Aligarh.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ── Pricing Page Specific Styles ── */
+    .pricing-hero {
+      padding: 64px 0 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .pricing-hero .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--accent-primary);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-hero h1 {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .pricing-hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .product-tabs-wrap {
+      padding: 0 0 60px;
+    }
+
+    .product-tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 6px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      max-width: 860px;
+      margin: 0 auto 48px;
+    }
+
+    .product-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      font-family: var(--font-family);
+    }
+
+    .product-tab-btn .tab-icon {
+      font-size: 18px;
+    }
+
+    .product-tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-card);
+    }
+
+    .product-tab-btn.active {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+    }
+
+    .product-tab-panel {
+      display: none;
+      animation: fadeInUp 0.35s ease;
+    }
+
+    .product-tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .panel-header .panel-tag {
+      display: inline-block;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--accent-secondary);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .panel-header h2 {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .panel-header p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .billing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .billing-toggle span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .billing-toggle span:hover {
+      color: var(--text-primary);
+    }
+
+    .billing-toggle span.active-label {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .toggle-switch:focus-visible {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 2px;
+    }
+
+    .toggle-switch.on {
+      background: var(--accent-gradient);
+      border-color: transparent;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .toggle-switch.on::after {
+      transform: translateX(24px);
+    }
+
+    .saving-badge {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--accent-primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .saving-badge.premium-badge {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: var(--success-color);
+    }
+
+    .pricing-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .pricing-cards-grid.two-col {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 860px) {
+
+      .pricing-cards-grid,
+      .pricing-cards-grid.two-col {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(160deg, #1e1b4b 0%, #1f2937 100%);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.2), 0 20px 40px rgba(99, 102, 241, 0.15);
+      transform: scale(1.03);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.03) translateY(-6px);
+    }
+
+    [data-theme="light"] .pricing-card.featured {
+      background: linear-gradient(160deg, #eef2ff 0%, #ffffff 100%);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent-gradient);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 18px;
+      border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .card-plan-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 16px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .pricing-card.featured .card-plan-icon {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .card-plan-name {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .card-plan-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    .price-block {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .price-main {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .price-currency {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .price-amount {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .price-period {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .price-original {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .price-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .price-contact {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--accent-secondary);
+      line-height: 1;
+    }
+
+    .card-features {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .card-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .feature-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success-color);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .feature-cross {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+      background: rgba(107, 114, 128, 0.1);
+      color: var(--text-muted);
+      border: 1px solid rgba(107, 114, 128, 0.2);
+    }
+
+    .feature-text-muted {
+      color: var(--text-muted);
+    }
+
+    .card-cta {
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+      border: none;
+      font-family: var(--font-family);
+    }
+
+    .card-cta.primary {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+    }
+
+    .card-cta.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.45);
+    }
+
+    .card-cta.secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1.5px solid var(--border-color);
+    }
+
+    .card-cta.secondary:hover {
+      border-color: var(--accent-primary);
+      background: rgba(99, 102, 241, 0.06);
+    }
+
+    .features-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      margin-top: 4px;
+    }
+
+    .app-subtabs-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .app-subtab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-family);
+    }
+
+    .app-subtab-btn.active {
+      background: rgba(6, 182, 212, 0.12);
+      border-color: var(--accent-secondary);
+      color: var(--accent-secondary);
+    }
+
+    .app-sub-panel {
+      display: none;
+    }
+
+    .app-sub-panel.active {
+      display: block;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .info-banner {
+      background: rgba(99, 102, 241, 0.07);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 14px;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .info-banner .info-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .info-banner p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .info-banner strong {
+      color: var(--text-primary);
+    }
+
+    .compare-table-wrap {
+      margin-top: 56px;
+      overflow-x: auto;
+    }
+
+    .compare-heading {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .compare-table th {
+      background: var(--bg-card);
+      padding: 14px 20px;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .compare-table th.highlight-col {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.1));
+      color: var(--accent-primary);
+    }
+
+    .compare-table td {
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .compare-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .compare-table .check-yes {
+      color: var(--success-color);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .compare-table .check-no {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .cta-bottom {
+      margin-top: 72px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 56px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-bottom::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-bottom::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-bottom h2 {
+      font-size: 34px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .cta-bottom p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      margin-bottom: 32px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-bottom-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .faq-strip {
+      margin-top: 56px;
+    }
+
+    .faq-strip h3 {
+      font-size: 24px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 700px) {
+      .product-tabs-nav {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 8px;
+      }
+
+      .product-tab-btn {
+        justify-content: center;
+      }
+
+      .pricing-hero h1 {
+        font-size: 32px;
+      }
+
+      .price-amount {
+        font-size: 40px;
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+
+      .compare-table {
+        min-width: 540px;
+      }
+
+      .cta-bottom {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Contact Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-contacts">
+        <span>📍 Shop 16, C.M. Mall, Railway Road, Aligarh</span>
+        <a href="tel:+918938077776">📞 +91 8938077776</a>
+        <a href="mailto:raizadacompusoft@gmail.com">✉️ raizadacompusoft@gmail.com</a>
+      </div>
+      <div class="top-right">
+        <a href="admin.html" class="admin-link">🔒 Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-brand">
+        <div class="logo-icon"><img src="assets/logo.png" alt="Raizada CompuSoft" height="40px" width="40px"></div>
+        <div class="logo-text">
+          <h1>Raizada CompuSoft</h1>
+          <span>Marg® ERP Solution Partner</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#apps">Mobile Apps</a>
+        <a href="index.html#gst-services">GST Services</a>
+        <a href="pricing.html" style="color: var(--accent-secondary); font-weight: 700;">Pricing</a>
+        <a href="index.html#contact">Contact Us</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"></button>
+        <button class="btn-primary open-demo-modal">Get Free Proposal</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pricing Hero -->
+  <section class="pricing-hero">
+    <div class="container">
+      <div class="tagline">💰 Simple, Transparent Pricing</div>
+      <h1>Plans for Every <span class="gradient-text">Business Size</span></h1>
+      <p>No hidden fees. No long-term lock-ins. Start with a free demo and scale as you grow.</p>
+    </div>
+  </section>
+
+  <!-- Main Pricing Content -->
+  <section class="product-tabs-wrap">
+    <div class="container">
+
+      <!-- Product Tab Navigation -->
+      <div class="product-tabs-nav" role="tablist">
+        <button class="product-tab-btn active" data-tab="erp" id="tab-erp" role="tab" aria-selected="true"
+          aria-controls="panel-erp">
+          <span class="tab-icon">🖥️</span> Marg ERP 9+
+        </button>
+        <button class="product-tab-btn" data-tab="cloud" id="tab-cloud" role="tab" aria-selected="false"
+          aria-controls="panel-cloud">
+          <span class="tab-icon">☁️</span> MargCloud
+        </button>
+        <button class="product-tab-btn" data-tab="apps" id="tab-apps" role="tab" aria-selected="false"
+          aria-controls="panel-apps">
+          <span class="tab-icon">📱</span> Mobile Apps
+        </button>
+        <button class="product-tab-btn" data-tab="payroll" id="tab-payroll" role="tab" aria-selected="false"
+          onclick="window.location.href='payroll.html'; return false;" style="cursor:pointer;">
+          <span class="tab-icon">👔</span> Payroll (MargHRMS)
+          <span style="font-size:10px; vertical-align:middle; opacity:0.7; margin-left:4px;">↗</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: Marg ERP 9+ Software -->
+      <div class="product-tab-panel active" id="panel-erp" role="tabpanel" aria-labelledby="tab-erp">
+        <div class="panel-header">
+          <span class="panel-tag">Desktop Software</span>
+          <h2>Marg® ERP 9+ Software Plans</h2>
+          <p>Annual renewal license fee for the industry-leading ERP software. 18% GST extra on all plans. Choose the
+            edition that fits your business.</p>
+        </div>
+        <div class="info-banner">
+          <div class="info-icon">&#9432;&#65039;</div>
+          <p><strong>*Customisation extra.</strong> We do not sell through online portals. No Service/support is
+            available if you buy Marg ERP from those sources. Contact us for an exact quote.</p>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="pricing-cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px;">
+
+          <!-- Nano -->
+          <div class="pricing-card" style="padding: 24px 20px;">
+            <div class="card-plan-icon" style="font-size:28px;">&#128300;</div>
+            <div class="card-plan-name" style="font-size:15px;">Marg ERP Nano</div>
+            <div class="card-plan-desc" style="font-size:12px;">For small retailers &amp; pharma — bill-limited
+              cloud-assisted edition.</div>
+            <div class="price-block" style="padding: 14px 0 10px;">
+              <div class="price-main">
+                <span class="price-currency">&#8377;</span>
+                <span class="price-amount">5,550</span>
+              </div>
+              <div class="price-period">per year &nbsp;/&nbsp; 18% GST extra</div>
+            </div>
+            <div
+              style="background: rgba(var(--accent-primary-rgb,99,102,241),0.07); border: 1px dashed var(--border-color); border-radius:8px; padding: 10px 12px; margin: 10px 0; font-size:12px; color:var(--text-secondary);">
+              Nano 1.0, 2.0, 3.0 &amp; 4.0 &mdash; <a href="#nano-compare-table"
+                style="color:var(--accent-primary); text-decoration:underline;">see Nano comparison below</a>
+            </div>
+            <ul class="card-features" style="margin-top:8px;">
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> <strong>Nano Versions</strong>
+                (1.0/2.0/3.0/4.0)</li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> &#8377;3,000/- per extra user
+              </li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Maximum 2 users</li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> &#8377;3,000/- per extra Company
+              </li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Maximum 2 Company</li>
+            </ul>
+            <button class="card-cta secondary open-demo-modal" style="font-size:13px;">Get a Quote</button>
+          </div>
+
+          <!-- Basic -->
+          <div class="pricing-card" style="padding: 24px 20px;">
+            <div class="card-plan-icon" style="font-size:28px;">&#128218;</div>
+            <div class="card-plan-name" style="font-size:15px;">Basic Edition</div>
+            <div class="card-plan-desc" style="font-size:12px;">Limited edition for small businesses &amp; retailers. 1
+              User Full Rights.</div>
+            <div class="price-block" style="padding: 14px 0 10px;">
+              <div class="price-main">
+                <span class="price-currency">&#8377;</span>
+                <span class="price-amount">10,300</span>
+              </div>
+              <div class="price-period">per year &nbsp;/&nbsp; 18% GST extra</div>
+            </div>
+            <div
+              style="background: rgba(255,165,0,0.07); border: 1px dashed rgba(255,165,0,0.3); border-radius:8px; padding: 8px 12px; margin: 10px 0; font-size:11px; color:var(--text-secondary);">
+              (Limited Edition)
+            </div>
+            <ul class="card-features" style="margin-top:8px;">
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> <strong>1 User Full
+                  Rights</strong></li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Additional User ARC @
+                &#8377;1,050</li>
+              <li class="card-feature-item" style="padding-left:18px; font-size:12px; opacity:0.8;"><span
+                  style="color:var(--text-muted);">&#8226;</span> Maximum 2 users / 2 Company</li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Extra Company ARC @ &#8377;1,030
+              </li>
+            </ul>
+            <button class="card-cta secondary open-demo-modal" style="font-size:13px;">Get a Quote</button>
+          </div>
+
+          <!-- Silver (Featured) -->
+          <div class="pricing-card featured" style="padding: 24px 20px;">
+            <div class="popular-badge">&#11088; Best Value</div>
+            <div class="card-plan-icon" style="font-size:28px;">&#129352;</div>
+            <div class="card-plan-name" style="font-size:15px;">Silver Edition</div>
+            <div class="card-plan-desc" style="font-size:12px;">For growing distributors &amp; chemists. Full rights +
+              view user included.</div>
+            <div class="price-block" style="padding: 14px 0 10px;">
+              <div class="price-main">
+                <span class="price-currency">&#8377;</span>
+                <span class="price-amount">13,900</span>
+              </div>
+              <div class="price-period">per year &nbsp;/&nbsp; 18% GST extra</div>
+            </div>
+            <ul class="card-features" style="margin-top:8px;">
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> <strong>1 User Full
+                  Rights</strong></li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> <strong>1 User for View
+                  only</strong></li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Additional User ARC @
+                &#8377;1,050</li>
+              <li class="card-feature-item" style="padding-left:18px; font-size:12px; opacity:0.8;"><span
+                  style="color:var(--text-muted);">&#8226;</span> &#8377;3,000/- per extra user</li>
+              <li class="card-feature-item" style="padding-left:18px; font-size:12px; opacity:0.8;"><span
+                  style="color:var(--text-muted);">&#8226;</span> &#8377;3,000/- per extra Company</li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Extra Company ARC @ &#8377;1,030
+              </li>
+            </ul>
+            <button class="card-cta primary open-demo-modal" style="font-size:13px;">Get a Quote &#8594;</button>
+          </div>
+
+          <!-- Gold -->
+          <div class="pricing-card" style="padding: 24px 20px;">
+            <div class="card-plan-icon" style="font-size:28px;">&#129351;</div>
+            <div class="card-plan-name" style="font-size:15px;">Gold Edition</div>
+            <div class="card-plan-desc" style="font-size:12px;">For large businesses needing unlimited users &amp;
+              companies.</div>
+            <div class="price-block" style="padding: 14px 0 10px;">
+              <div class="price-main">
+                <span class="price-currency">&#8377;</span>
+                <span class="price-amount">26,000</span>
+              </div>
+              <div class="price-period">per year &nbsp;/&nbsp; 18% GST extra</div>
+            </div>
+            <ul class="card-features" style="margin-top:8px;">
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> <strong>Unlimited Users</strong>
+              </li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> <strong>Unlimited Extra
+                  Company</strong></li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> All Silver features included
+              </li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Multi-branch / Godown Management
+              </li>
+              <li class="card-feature-item"><span class="feature-check">&#10003;</span> Advanced Reporting &amp;
+                Analytics</li>
+            </ul>
+            <button class="card-cta secondary open-demo-modal" style="font-size:13px;">Get a Quote</button>
+          </div>
+
+        </div>
+
+        <!-- Marg ERP 9+ Features List -->
+        <div class="compare-table-wrap" style="margin-top: 36px;">
+          <h3 class="compare-heading">Features &mdash; Marg ERP 9+</h3>
+          <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px 32px; padding: 4px 0;">
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> License fee
+              &amp; upgradation for 1 year</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Second free
+              user only for view</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> 2 visits for
+              trouble shooting</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Free telephonic
+              support/assistance from local support centres</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Multi companies
+              &amp; Multi locations (godowns)</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Multi currency
+              &amp; 7 layer backup protection</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Integrated SMS
+              and email alerts</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Data transfers
+              from old softwares</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Manual and
+              video helps on click</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Self defined
+              formats, reports, fields</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> All reports in
+              PDF, Excel, CSV, RTF &amp; XML</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> Operator wise
+              menu &amp; hot keys</div>
+            <div
+              style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:var(--text-secondary);">
+              <span style="color:var(--accent-primary); font-size:15px; margin-top:1px;">&#10003;</span> GST return in
+              Excel, CSV &amp; JSON</div>
+          </div>
+          <!-- Full Feature Comparison Link -->
+          <div style="text-align:center; margin-top: 24px;">
+            <a href="table.html" target="_blank" style="display:inline-flex; align-items:center; gap:10px; padding:12px 28px; border-radius:50px;
+                     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+                     color:#fff; font-size:14px; font-weight:600; text-decoration:none;
+                     box-shadow: 0 4px 18px rgba(99,102,241,0.35); transition: transform 0.2s, box-shadow 0.2s;"
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 28px rgba(99,102,241,0.45)'"
+              onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 18px rgba(99,102,241,0.35)'">
+              &#128203; View Full Software Feature Comparison (Basic vs Silver vs Gold)
+            </a>
+          </div>
+        </div>
+
+        <!-- Nano Comparison Table -->
+        <div class="compare-table-wrap" id="nano-compare-table" style="margin-top: 36px;">
+          <h3 class="compare-heading">Compare Nano ERP Plans</h3>
+          <p style="text-align:center; font-size:13px; color:var(--text-secondary); margin-bottom:18px;">Choose the Nano
+            version that best suits your business requirements.</p>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Features</th>
+                <th>Nano 1.0</th>
+                <th class="highlight-col">Nano 2.0</th>
+                <th>Nano 3.0</th>
+                <th class="highlight-col">Nano 4.0</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Bills Limit</strong></td>
+                <td><strong>600 Bills / Month</strong></td>
+                <td class="check-yes highlight-col"><span
+                    style="background:var(--accent-primary); color:#fff; border-radius:20px; padding:2px 12px; font-size:12px; font-weight:600;">Unlimited</span>
+                </td>
+                <td><strong>1,000 Bills / Month</strong></td>
+                <td class="check-yes highlight-col"><span
+                    style="background:var(--accent-primary); color:#fff; border-radius:20px; padding:2px 12px; font-size:12px; font-weight:600;">Unlimited</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Sales Limit</strong></td>
+                <td>&#8377;2.5 Lakh / Month</td>
+                <td class="highlight-col">&#8377;40 Lakh / Year</td>
+                <td>&#8377;3.5 Lakh / Month</td>
+                <td class="highlight-col">&#8377;80 Lakh / Year</td>
+              </tr>
+              <tr>
+                <td><strong>Business Type</strong></td>
+                <td>Pharma &amp; General Retail</td>
+                <td class="highlight-col">Composition Businesses</td>
+                <td>Non-Pharma</td>
+                <td class="highlight-col">Non-Pharma</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: MargCloud -->
+      <div class="product-tab-panel" id="panel-cloud" role="tabpanel" aria-labelledby="tab-cloud">
+        <div class="panel-header">
+          <span class="panel-tag">Cloud Hosting</span>
+          <h2>MargCloud – ERP on the Cloud</h2>
+          <p>Run Marg ERP from anywhere on any device. No hardware investment, 99.9% uptime, automatic backups.</p>
+        </div>
+        <div class="billing-toggle">
+          <span id="lbl-base" class="active-label" role="button" tabindex="0">Base</span>
+          <div class="toggle-switch" id="cloud-toggle" role="switch" aria-checked="false"
+            aria-label="Toggle Base or Premium Cloud Plans" tabindex="0"></div>
+          <span id="lbl-premium" role="button" tabindex="0">Premium</span>
+          <span class="saving-badge" id="cloud-badge">8-Core Xeon · 2x Daily Backup</span>
+        </div>
+        <div class="pricing-cards-grid">
+          <!-- Basic Cloud -->
+          <div class="pricing-card">
+            <div class="card-plan-icon">🌱</div>
+            <div class="card-plan-name">Marg Basic Cloud</div>
+            <div class="card-plan-desc">Ideal for small businesses &amp; retailers. Includes Marg Basic ERP + Cloud
+              Hosting.</div>
+            <div class="price-block">
+              <div class="price-main">
+                <span class="price-currency">₹</span>
+                <span class="price-amount cloud-price" data-base="17800" data-premium="21100">17,800</span>
+              </div>
+              <div class="price-period">per year <span class="cloud-period">(Base)</span></div>
+              <div class="price-note cloud-note" data-base="*Maximum 2 Users · 1 Company"
+                data-premium="*Maximum 2 Users · 1 Company">*Maximum 2 Users · 1 Company
+              </div>
+              <div class="price-breakdown-box"
+                style="background: rgba(255,255,255,0.04); border: 1px dashed var(--border-color); border-radius: 8px; padding: 8px 12px; margin-top: 12px; font-size: 12px; text-align: left;">
+                <div
+                  style="display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--text-secondary);">
+                  <span>Marg ERP Cost:</span>
+                  <strong style="color: var(--text-primary);">₹10,300</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+                  <span>Cloud Cost / User:</span>
+                  <strong class="cloud-cost-user" data-base="₹7,500" data-premium="₹10,800"
+                    style="color: var(--accent-primary);">₹7,500</strong>
+                </div>
+              </div>
+            </div>
+            <div class="features-section-label">Specifications</div>
+            <ul class="card-features">
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>1 User &nbsp;·&nbsp; 1
+                    Company</strong> <span style="font-size:11px; opacity:0.75;">(*Max 2 Users)</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Hardware:</strong> <span
+                    class="cloud-feat-hw" data-base="Xeon 8-Core CPU, 64 GB RAM"
+                    data-premium="Xeon 16-Core CPU, 128 GB RAM">Xeon 8-Core CPU, 64 GB RAM</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Backup
+                    Frequency:</strong> <span class="cloud-feat-bk" data-base="2 Backups (Every Day)"
+                    data-premium="5 Backups (Every Day)">2 Backups (Every Day)</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Backup Multi
+                    Location:</strong> Yes</span></li>
+              <li class="card-feature-item"><span class="cloud-feat-azure-icon"><span
+                    class="feature-cross">✗</span></span> <span><strong>Azure Backup:</strong> <span
+                    class="cloud-feat-azure" data-base="NA" data-premium="Yes">NA</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>OneDrive Backup:</strong>
+                  Yes</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Server
+                    Snapshots:</strong> <span class="cloud-feat-snap" data-base="1 Snapshot / Day"
+                    data-premium="4 Snapshots / Day">1 Snapshot / Day</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Security:</strong>
+                  Firewall + BitDefender</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Support:</strong> 09:00
+                  AM – 09:00 PM</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Managed
+                    Services:</strong> <span class="cloud-feat-ms" data-base="Comprehensive"
+                    data-premium="Extensive">Comprehensive</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>DNS:</strong> <span
+                    class="cloud-feat-dns" data-base="Marg Domain" data-premium="Customer Domain / Marg Domain">Marg
+                    Domain</span></span></li>
+            </ul>
+            <button class="card-cta secondary open-demo-modal">Get Started</button>
+          </div>
+          <!-- Silver Cloud (Featured) -->
+          <div class="pricing-card featured">
+            <div class="popular-badge">🔥 Best Value</div>
+            <div class="card-plan-icon">🚀</div>
+            <div class="card-plan-name">Marg Silver Cloud</div>
+            <div class="card-plan-desc">For growing businesses needing multi-user access. Includes Marg Silver ERP +
+              Cloud Hosting.</div>
+            <div class="price-block">
+              <div class="price-main">
+                <span class="price-currency">₹</span>
+                <span class="price-amount cloud-price" data-base="21400" data-premium="24700">21,400</span>
+              </div>
+              <div class="price-period">per year <span class="cloud-period">(Base)</span></div>
+              <div class="price-note cloud-note" data-base="1 User · 1 Company (Multi-User Ready)"
+                data-premium="1 User · 1 Company (Multi-User Ready)">1 User · 1 Company (Multi-User Ready)
+              </div>
+              <div class="price-breakdown-box"
+                style="background: rgba(255,255,255,0.04); border: 1px dashed var(--border-color); border-radius: 8px; padding: 8px 12px; margin-top: 12px; font-size: 12px; text-align: left;">
+                <div
+                  style="display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--text-secondary);">
+                  <span>Marg ERP Cost:</span>
+                  <strong style="color: var(--text-primary);">₹13,900</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+                  <span>Cloud Cost / User:</span>
+                  <strong class="cloud-cost-user" data-base="₹7,500" data-premium="₹10,800"
+                    style="color: var(--accent-primary);">₹7,500</strong>
+                </div>
+              </div>
+            </div>
+            <div class="features-section-label">Specifications</div>
+            <ul class="card-features">
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>1 User &nbsp;·&nbsp; 1
+                    Company</strong> <span style="font-size:11px; opacity:0.75;">(Multi-User Ready)</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Hardware:</strong> <span
+                    class="cloud-feat-hw" data-base="Xeon 8-Core CPU, 64 GB RAM"
+                    data-premium="Xeon 16-Core CPU, 128 GB RAM">Xeon 8-Core CPU, 64 GB RAM</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Backup
+                    Frequency:</strong> <span class="cloud-feat-bk" data-base="2 Backups (Every Day)"
+                    data-premium="5 Backups (Every Day)">2 Backups (Every Day)</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Backup Multi
+                    Location:</strong> Yes</span></li>
+              <li class="card-feature-item"><span class="cloud-feat-azure-icon"><span
+                    class="feature-cross">✗</span></span> <span><strong>Azure Backup:</strong> <span
+                    class="cloud-feat-azure" data-base="NA" data-premium="Yes">NA</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>OneDrive Backup:</strong>
+                  Yes</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Server
+                    Snapshots:</strong> <span class="cloud-feat-snap" data-base="1 Snapshot / Day"
+                    data-premium="4 Snapshots / Day">1 Snapshot / Day</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Security:</strong>
+                  Firewall + BitDefender</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Support:</strong> 09:00
+                  AM – 09:00 PM</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Managed
+                    Services:</strong> <span class="cloud-feat-ms" data-base="Comprehensive"
+                    data-premium="Extensive">Comprehensive</span></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>DNS:</strong> <span
+                    class="cloud-feat-dns" data-base="Marg Domain" data-premium="Customer Domain / Marg Domain">Marg
+                    Domain</span></span></li>
+            </ul>
+            <button class="card-cta primary open-demo-modal">Get Started →</button>
+          </div>
+          <!-- Enterprise Cloud -->
+          <div class="pricing-card">
+            <div class="card-plan-icon">🏢</div>
+            <div class="card-plan-name">Marg Enterprise Cloud</div>
+            <div class="card-plan-desc">For large businesses with multiple branches, custom infrastructure &amp;
+              dedicated VPC.</div>
+            <div class="price-block">
+              <div class="price-contact">Custom</div>
+              <div class="price-period">enterprise cloud plan</div>
+              <div class="price-note">Unlimited Users · Dedicated VPC</div>
+              <div class="price-breakdown-box"
+                style="background: rgba(255,255,255,0.04); border: 1px dashed var(--border-color); border-radius: 8px; padding: 8px 12px; margin-top: 12px; font-size: 12px; text-align: left;">
+                <div
+                  style="display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--text-secondary);">
+                  <span>Marg ERP License:</span>
+                  <strong style="color: var(--text-primary);">Gold / Custom Multi-User</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+                  <span>Cloud Infrastructure:</span>
+                  <strong style="color: var(--accent-secondary);">Dedicated VPC Cluster</strong>
+                </div>
+              </div>
+            </div>
+            <div class="features-section-label">Specifications</div>
+            <ul class="card-features">
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Unlimited Users
+                    &nbsp;·&nbsp; Multi-Company / Branch</strong></span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Hardware:</strong>
+                  Dedicated 32+ Core Xeon, 256 GB+ RAM</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Backup
+                    Frequency:</strong> Continuous Real-Time &amp; Hourly</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Backup Multi
+                    Location:</strong> Yes (Multi-Region Global)</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Azure &amp; AWS
+                    Backup:</strong> Yes (Redundant)</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>OneDrive Backup:</strong>
+                  Yes</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Server
+                    Snapshots:</strong> Hourly Automated Continuous</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Security:</strong>
+                  Enterprise Firewall + BitDefender Total</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Support:</strong> 24/7
+                  Dedicated Support + Dedicated Manager</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>Managed
+                    Services:</strong> Full Dedicated DevOps &amp; SLA</span></li>
+              <li class="card-feature-item"><span class="feature-check">✓</span> <span><strong>DNS:</strong> Customer
+                  Domain + Dedicated Static IP + SSL</span></li>
+            </ul>
+            <button class="card-cta secondary open-demo-modal">Contact Us</button>
+          </div>
+        </div>
+
+        <!-- MargCloud Comparison Table -->
+        <div class="compare-table-wrap">
+          <h3 class="compare-heading">MargCloud Infrastructure &amp; Specification Comparison</h3>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Specification</th>
+                <th>Marg Basic Cloud <span class="cloud-period-badge"
+                    style="font-size:11px; font-weight:600; opacity:0.85;">(Base)</span></th>
+                <th class="highlight-col">Marg Silver Cloud ⭐ <span class="cloud-period-badge"
+                    style="font-size:11px; font-weight:600;">(Base)</span></th>
+                <th>Marg Enterprise Cloud</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Annual Price</strong></td>
+                <td><strong class="cloud-table-price-basic" style="font-size:15px; color:var(--text-primary);">₹<span
+                      class="cloud-price" data-base="17800" data-premium="21100">17,800</span></strong> <span
+                    class="cloud-period" style="font-size:12px; color:var(--text-muted);">(Base)</span></td>
+                <td class="highlight-col"><strong class="cloud-table-price-silver"
+                    style="font-size:15px; color:var(--accent-primary);">₹<span class="cloud-price" data-base="21400"
+                      data-premium="24700">21,400</span></strong> <span class="cloud-period"
+                    style="font-size:12px; color:var(--text-muted);">(Base)</span></td>
+                <td><strong style="font-size:15px; color:var(--accent-secondary);">Custom Volume Quote</strong></td>
+              </tr>
+              <tr>
+                <td>Marg ERP Cost</td>
+                <td>₹10,300</td>
+                <td class="highlight-col">₹13,900</td>
+                <td>Custom License</td>
+              </tr>
+              <tr>
+                <td>Cloud Cost per User</td>
+                <td><span class="cloud-cost-user" data-base="₹7,500" data-premium="₹10,800">₹7,500</span></td>
+                <td class="highlight-col"><span class="cloud-cost-user" data-base="₹7,500"
+                    data-premium="₹10,800">₹7,500</span></td>
+                <td>Dedicated VPC Rate</td>
+              </tr>
+              <tr>
+                <td>Users &amp; Companies</td>
+                <td>1 User / 1 Company <em style="font-size:12px; color:var(--text-muted);">(*Max 2 Users)</em></td>
+                <td class="highlight-col">1 User / 1 Company <em
+                    style="font-size:12px; color:var(--text-muted);">(Multi-User Ready)</em></td>
+                <td>Unlimited Users / Multi-Company</td>
+              </tr>
+              <tr>
+                <td>Hardware Infrastructure</td>
+                <td><span class="cloud-feat-hw" data-base="Xeon 8-Core CPU, 64 GB RAM"
+                    data-premium="Xeon 16-Core CPU, 128 GB RAM">Xeon 8-Core CPU, 64 GB RAM</span></td>
+                <td class="highlight-col"><span class="cloud-feat-hw" data-base="Xeon 8-Core CPU, 64 GB RAM"
+                    data-premium="Xeon 16-Core CPU, 128 GB RAM">Xeon 8-Core CPU, 64 GB RAM</span></td>
+                <td>Dedicated 32+ Core Xeon Cluster (256 GB+ RAM)</td>
+              </tr>
+              <tr>
+                <td>Backup Frequency</td>
+                <td><span class="cloud-feat-bk" data-base="2 Backups (Every Day)" data-premium="5 Backups (Every Day)">2
+                    Backups (Every Day)</span></td>
+                <td class="highlight-col"><span class="cloud-feat-bk" data-base="2 Backups (Every Day)"
+                    data-premium="5 Backups (Every Day)">2 Backups (Every Day)</span></td>
+                <td>Continuous Real-Time &amp; Hourly</td>
+              </tr>
+              <tr>
+                <td>Backup Multi Location</td>
+                <td class="check-yes">✓ Yes</td>
+                <td class="check-yes highlight-col">✓ Yes</td>
+                <td class="check-yes">✓ Yes (Multi-Region)</td>
+              </tr>
+              <tr>
+                <td>Azure Backup</td>
+                <td><span class="cloud-table-azure" data-base="– NA" data-premium="✓ Yes">– NA</span></td>
+                <td class="highlight-col"><span class="cloud-table-azure" data-base="– NA" data-premium="✓ Yes">–
+                    NA</span></td>
+                <td class="check-yes">✓ Yes (Redundant)</td>
+              </tr>
+              <tr>
+                <td>OneDrive Backup</td>
+                <td class="check-yes">✓ Yes</td>
+                <td class="check-yes highlight-col">✓ Yes</td>
+                <td class="check-yes">✓ Yes</td>
+              </tr>
+              <tr>
+                <td>Server Snapshots</td>
+                <td><span class="cloud-feat-snap" data-base="1 Snapshot / Day" data-premium="4 Snapshots / Day">1
+                    Snapshot / Day</span></td>
+                <td class="highlight-col"><span class="cloud-feat-snap" data-base="1 Snapshot / Day"
+                    data-premium="4 Snapshots / Day">1 Snapshot / Day</span></td>
+                <td>Hourly Automated Continuous</td>
+              </tr>
+              <tr>
+                <td>Security &amp; Antivirus</td>
+                <td>Firewall + BitDefender</td>
+                <td class="highlight-col">Firewall + BitDefender</td>
+                <td>Enterprise Firewall + BitDefender Total Security</td>
+              </tr>
+              <tr>
+                <td>Support Hours</td>
+                <td>09:00 AM – 09:00 PM</td>
+                <td class="highlight-col">09:00 AM – 09:00 PM</td>
+                <td>24/7 Dedicated Support + Dedicated Manager</td>
+              </tr>
+              <tr>
+                <td>Managed Services</td>
+                <td><span class="cloud-feat-ms" data-base="Comprehensive" data-premium="Extensive">Comprehensive</span>
+                </td>
+                <td class="highlight-col"><span class="cloud-feat-ms" data-base="Comprehensive"
+                    data-premium="Extensive">Comprehensive</span></td>
+                <td>Full Dedicated DevOps &amp; SLA Guarantee</td>
+              </tr>
+              <tr>
+                <td>DNS Configuration</td>
+                <td><span class="cloud-feat-dns" data-base="Marg Domain"
+                    data-premium="Customer Domain / Marg Domain">Marg Domain</span></td>
+                <td class="highlight-col"><span class="cloud-feat-dns" data-base="Marg Domain"
+                    data-premium="Customer Domain / Marg Domain">Marg Domain</span></td>
+                <td>Customer Domain + Dedicated Static IP + SSL</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Key Features -->
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; margin-top: 48px; text-align: center;">
+          <div class="mock-card" style="padding: 24px;">
+            <div style="font-size: 32px; margin-bottom: 10px;">☁️</div>
+            <h4 style="font-size: 15px; margin-bottom: 6px;">100% Cloud</h4>
+            <p style="font-size: 13px; color: var(--text-secondary);">Access ERP from any browser or device, anytime.
+            </p>
+          </div>
+          <div class="mock-card" style="padding: 24px;">
+            <div style="font-size: 32px; margin-bottom: 10px;">🔒</div>
+            <h4 style="font-size: 15px; margin-bottom: 6px;">Bank-level Security</h4>
+            <p style="font-size: 13px; color: var(--text-secondary);">256-bit encryption &amp; secure data centers.</p>
+          </div>
+          <div class="mock-card" style="padding: 24px;">
+            <div style="font-size: 32px; margin-bottom: 10px;">⚡</div>
+            <h4 style="font-size: 15px; margin-bottom: 6px;">99.9% Uptime</h4>
+            <p style="font-size: 13px; color: var(--text-secondary);">Lightning-fast servers with guaranteed uptime.</p>
+          </div>
+          <div class="mock-card" style="padding: 24px;">
+            <div style="font-size: 32px; margin-bottom: 10px;">💾</div>
+            <h4 style="font-size: 15px; margin-bottom: 6px;">Auto Backup</h4>
+            <p style="font-size: 13px; color: var(--text-secondary);">Never lose data with automatic cloud backups.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Mobile Apps -->
+      <div class="product-tab-panel" id="panel-apps" role="tabpanel" aria-labelledby="tab-apps">
+        <div class="panel-header">
+          <span class="panel-tag">Integrated Mobile Apps</span>
+          <h2>Marg® ERP Mobile App Plans</h2>
+          <p>Android &amp; iOS apps that integrate directly with your Marg ERP. Activate what your business needs.</p>
+        </div>
+        <div class="app-subtabs-nav">
+          <button class="app-subtab-btn active" data-app="eorder">🚚 eOrder / eBilling / eDelivery / eRetail</button>
+          <button class="app-subtab-btn" data-app="eowner">📊 eOwner</button>
+          <button class="app-subtab-btn" data-app="sfaxpert">🎯 SFAXpert</button>
+          <button class="app-subtab-btn" data-app="gps">📍 GPS Tracking</button>
+          <button class="app-subtab-btn" data-app="pharmanxt">🔍 PharmaNXT</button>
+        </div>
+
+        <!-- eOrder / eBilling / eDelivery / eRetail -->
+        <div class="app-sub-panel active" id="app-panel-eorder">
+          <div class="app-plan-info-bar"
+            style="background: rgba(var(--accent-primary-rgb,99,102,241),0.08); border: 1px solid rgba(var(--accent-primary-rgb,99,102,241),0.2); border-radius: 10px; padding: 12px 18px; margin-bottom: 24px; font-size: 13px; color: var(--text-secondary); display:flex; align-items:center; gap:10px;">
+            <span style="font-size:18px;">ℹ️</span>
+            <span>All plans below apply to <strong style="color:var(--text-primary);">eOrder, eBilling, eDelivery &amp;
+                eRetail</strong> apps. Each plan includes <strong style="color:var(--text-primary);">Unlimited
+                Retailers</strong>. Price is per year.</span>
+          </div>
+          <div class="pricing-cards-grid"
+            style="grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 16px;">
+            <!-- Plan 1: 2 Salesmen -->
+            <div class="pricing-card" style="padding: 22px 18px;">
+              <div class="card-plan-icon" style="font-size:28px;">🛵</div>
+              <div class="card-plan-name" style="font-size:14px;">Starter</div>
+              <div class="price-block" style="padding: 14px 0 10px;">
+                <div class="price-main" style="gap:2px;">
+                  <span class="price-currency" style="font-size:16px;">₹</span>
+                  <span class="price-amount" style="font-size:28px;">5,550</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>2 Salesmen</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Unlimited Retailers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> eOrder / eBilling / eDelivery /
+                  eRetail</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live ERP Sync</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal" style="font-size:13px; padding:10px 14px;">Get
+                Started</button>
+            </div>
+            <!-- Plan 2: 5 Salesmen -->
+            <div class="pricing-card" style="padding: 22px 18px;">
+              <div class="card-plan-icon" style="font-size:28px;">🚚</div>
+              <div class="card-plan-name" style="font-size:14px;">Standard</div>
+              <div class="price-block" style="padding: 14px 0 10px;">
+                <div class="price-main" style="gap:2px;">
+                  <span class="price-currency" style="font-size:16px;">₹</span>
+                  <span class="price-amount" style="font-size:28px;">7,500</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>5 Salesmen</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Unlimited Retailers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> eOrder / eBilling / eDelivery /
+                  eRetail</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live ERP Sync</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal" style="font-size:13px; padding:10px 14px;">Get
+                Started</button>
+            </div>
+            <!-- Plan 3: 12 Salesmen (NEW / Popular) -->
+            <div class="pricing-card featured" style="padding: 22px 18px;">
+              <div class="popular-badge">🔥 Popular · New</div>
+              <div class="card-plan-icon" style="font-size:28px;">🚀</div>
+              <div class="card-plan-name" style="font-size:14px;">Growth</div>
+              <div class="price-block" style="padding: 14px 0 10px;">
+                <div class="price-main" style="gap:2px;">
+                  <span class="price-currency" style="font-size:16px;">₹</span>
+                  <span class="price-amount" style="font-size:28px;">13,900</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>12 Salesmen</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Unlimited Retailers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> eOrder / eBilling / eDelivery /
+                  eRetail</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live ERP Sync</li>
+              </ul>
+              <button class="card-cta primary open-demo-modal" style="font-size:13px; padding:10px 14px;">Get Started
+                →</button>
+            </div>
+            <!-- Plan 4: 25 Salesmen -->
+            <div class="pricing-card" style="padding: 22px 18px;">
+              <div class="card-plan-icon" style="font-size:28px;">🏭</div>
+              <div class="card-plan-name" style="font-size:14px;">Business</div>
+              <div class="price-block" style="padding: 14px 0 10px;">
+                <div class="price-main" style="gap:2px;">
+                  <span class="price-currency" style="font-size:16px;">₹</span>
+                  <span class="price-amount" style="font-size:28px;">25,000</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>25 Salesmen</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Unlimited Retailers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> eOrder / eBilling / eDelivery /
+                  eRetail</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live ERP Sync</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal" style="font-size:13px; padding:10px 14px;">Get
+                Started</button>
+            </div>
+            <!-- Plan 5: Unlimited Salesmen -->
+            <div class="pricing-card" style="padding: 22px 18px;">
+              <div class="card-plan-icon" style="font-size:28px;">♾️</div>
+              <div class="card-plan-name" style="font-size:14px;">Enterprise</div>
+              <div class="price-block" style="padding: 14px 0 10px;">
+                <div class="price-main" style="gap:2px;">
+                  <span class="price-currency" style="font-size:16px;">₹</span>
+                  <span class="price-amount" style="font-size:28px;">46,500</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>Unlimited Salesmen</strong>
+                </li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Unlimited Retailers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> eOrder / eBilling / eDelivery /
+                  eRetail</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live ERP Sync</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal" style="font-size:13px; padding:10px 14px;">Get
+                Started</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- eOwner -->
+        <div class="app-sub-panel" id="app-panel-eowner">
+          <div class="app-plan-info-bar"
+            style="background: rgba(var(--accent-primary-rgb,99,102,241),0.08); border: 1px solid rgba(var(--accent-primary-rgb,99,102,241),0.2); border-radius: 10px; padding: 12px 18px; margin-bottom: 24px; font-size: 13px; color: var(--text-secondary); display:flex; align-items:center; gap:10px;">
+            <span style="font-size:18px;">📊</span>
+            <span>Monitor your entire business in real-time from your phone. Live Sales, P&amp;L, outstanding reports,
+              salesman tracking &amp; more — on Android &amp; iOS. Price is per year.</span>
+          </div>
+          <div class="pricing-cards-grid"
+            style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 800px; margin: 0 auto;">
+            <!-- Owner Plan: 1 Owner -->
+            <div class="pricing-card" style="padding: 26px 22px;">
+              <div class="card-plan-icon" style="font-size:32px;">👤</div>
+              <div class="card-plan-name">Solo Owner</div>
+              <div class="card-plan-desc" style="font-size:13px;">Perfect for single-owner businesses.</div>
+              <div class="price-block" style="padding: 16px 0 12px;">
+                <div class="price-main">
+                  <span class="price-currency">₹</span>
+                  <span class="price-amount">4,100</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>1 Owner</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live Sales &amp; Purchase data</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Profit &amp; Loss summary</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Party outstanding reports</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Cash &amp; bank balance</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal">Activate Now</button>
+            </div>
+            <!-- Owner Plan: 2 Owners -->
+            <div class="pricing-card featured" style="padding: 26px 22px;">
+              <div class="popular-badge">⭐ Best Value</div>
+              <div class="card-plan-icon" style="font-size:32px;">👥</div>
+              <div class="card-plan-name">Duo Owners</div>
+              <div class="card-plan-desc" style="font-size:13px;">Share access with a business partner.</div>
+              <div class="price-block" style="padding: 16px 0 12px;">
+                <div class="price-main">
+                  <span class="price-currency">₹</span>
+                  <span class="price-amount">5,550</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>2 Owners</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live Sales &amp; Purchase data</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Profit &amp; Loss summary</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Party outstanding reports</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Cash &amp; bank balance</li>
+              </ul>
+              <button class="card-cta primary open-demo-modal">Activate Now →</button>
+            </div>
+            <!-- Owner Plan: 5 Owners -->
+            <div class="pricing-card" style="padding: 26px 22px;">
+              <div class="card-plan-icon" style="font-size:32px;">🏢</div>
+              <div class="card-plan-name">Group Owners</div>
+              <div class="card-plan-desc" style="font-size:13px;">Ideal for group companies with multiple directors.
+              </div>
+              <div class="price-block" style="padding: 16px 0 12px;">
+                <div class="price-main">
+                  <span class="price-currency">₹</span>
+                  <span class="price-amount">10,250</span>
+                </div>
+                <div class="price-period">per year</div>
+              </div>
+              <ul class="card-features" style="margin-top:10px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> <strong>5 Owners</strong></li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live Sales &amp; Purchase data</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Profit &amp; Loss summary</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Party outstanding reports</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Cash &amp; bank balance</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal">Activate Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SFAXpert -->
+        <div class="app-sub-panel" id="app-panel-sfaxpert">
+          <div class="pricing-cards-grid two-col">
+            <div class="pricing-card featured">
+              <div class="popular-badge">🎯 Sales Automation</div>
+              <div class="card-plan-icon">🎯</div>
+              <div class="card-plan-name">SFAXpert – Standard</div>
+              <div class="card-plan-desc">Full Sales Force Automation with daily call reporting for field teams.</div>
+              <div class="price-block">
+                <div class="price-main"><span class="price-currency">₹</span><span class="price-amount">3,500</span>
+                </div>
+                <div class="price-period">per user / year</div>
+                <div class="price-note">Minimum 2 users · Contact for team pricing</div>
+              </div>
+              <ul class="card-features">
+                <li class="card-feature-item"><span class="feature-check">✓</span> Daily Call Reporting (DCR)</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Target vs Achievement tracking</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Route beat plan management</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Doctor/Chemist visit tracking</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Leave &amp; attendance management
+                </li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Manager approval workflow</li>
+              </ul>
+              <button class="card-cta primary open-demo-modal">Get a Quote →</button>
+            </div>
+            <div class="pricing-card">
+              <div class="card-plan-icon">📈</div>
+              <div class="card-plan-name">SFAXpert – Enterprise</div>
+              <div class="card-plan-desc">For large pharma companies with 10+ field representatives.</div>
+              <div class="price-block">
+                <div class="price-contact">Custom</div>
+                <div class="price-period">enterprise pricing</div>
+                <div class="price-note">Bulk discounts available for large teams</div>
+              </div>
+              <ul class="card-features">
+                <li class="card-feature-item"><span class="feature-check">✓</span> Everything in Standard</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Custom reporting dashboards</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Territory management</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Integration with HQ ERP</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Dedicated onboarding team</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal">Contact Us</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- GPS -->
+        <div class="app-sub-panel" id="app-panel-gps">
+          <div class="pricing-cards-grid two-col">
+            <div class="pricing-card featured">
+              <div class="popular-badge">📍 Real-time Tracking</div>
+              <div class="card-plan-icon">📍</div>
+              <div class="card-plan-name">GPS Tracking App</div>
+              <div class="card-plan-desc">Live location tracking and route management for your field team.</div>
+              <div class="price-block">
+                <div class="price-main"><span class="price-currency">₹</span><span class="price-amount">1,200</span>
+                </div>
+                <div class="price-period">per user / year</div>
+                <div class="price-note">Often bundled with eOrder or SFAXpert</div>
+              </div>
+              <ul class="card-features">
+                <li class="card-feature-item"><span class="feature-check">✓</span> Real-time GPS location</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Route history &amp; distance</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Attendance via geo-fence</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Live map view for managers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Alert on route deviation</li>
+              </ul>
+              <button class="card-cta primary open-demo-modal">Activate Now →</button>
+            </div>
+            <div class="pricing-card">
+              <div class="card-plan-icon">🗺️</div>
+              <div class="card-plan-name">GPS – Team Bundle</div>
+              <div class="card-plan-desc">Track your entire field team with a flat team pricing.</div>
+              <div class="price-block">
+                <div class="price-contact">Custom</div>
+                <div class="price-period">per team / year</div>
+                <div class="price-note">Best for 5+ field staff</div>
+              </div>
+              <ul class="card-features">
+                <li class="card-feature-item"><span class="feature-check">✓</span> All GPS features</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Flat rate for any team size</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Admin dashboard</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Reporting &amp; exports</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal">Get Team Pricing</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PharmaNXT -->
+        <div class="app-sub-panel" id="app-panel-pharmanxt">
+          <div class="pricing-cards-grid two-col">
+            <div class="pricing-card featured">
+              <div class="popular-badge">🔍 Medicine Database</div>
+              <div class="card-plan-icon">🔍</div>
+              <div class="card-plan-name">PharmaNXT App</div>
+              <div class="card-plan-desc">Access drug information for 3 Lakh+ medicines — for pharma professionals.
+              </div>
+              <div class="price-block">
+                <div class="price-main"><span class="price-currency">₹</span><span class="price-amount">1,500</span>
+                </div>
+                <div class="price-period">per year</div>
+                <div class="price-note">Free trial available · No credit card required</div>
+              </div>
+              <ul class="card-features">
+                <li class="card-feature-item"><span class="feature-check">✓</span> 3 Lakh+ Medicine Database</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Salt composition lookup</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Drug interaction checker</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Substitute medicine finder</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Price &amp; MRP database</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Works offline</li>
+              </ul>
+              <button class="card-cta primary open-demo-modal">Start Free Trial →</button>
+            </div>
+            <div class="pricing-card">
+              <div class="card-plan-icon">💊</div>
+              <div class="card-plan-name">Who needs PharmaNXT?</div>
+              <div class="card-plan-desc">Built for the pharma ecosystem.</div>
+              <div class="price-block" style="border:none; padding-bottom:0; margin-bottom:0;">
+                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7;">PharmaNXT is the go-to
+                  reference app for <strong style="color: var(--text-primary);">chemists, pharmacists, MR
+                    representatives, and distributors</strong> who need quick access to medicine data.</p>
+              </div>
+              <ul class="card-features" style="margin-top: 24px;">
+                <li class="card-feature-item"><span class="feature-check">✓</span> Chemists &amp; Retailers</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Medical Representatives</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Pharma Distributors</li>
+                <li class="card-feature-item"><span class="feature-check">✓</span> Hospital Purchase Managers</li>
+              </ul>
+              <button class="card-cta secondary open-demo-modal">Learn More</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="cta-bottom">
+        <h2>Not Sure Which Plan is Right for You?</h2>
+        <p>Our experts at Raizada CompuSoft will help you choose the perfect combination for your business — at no cost.
+        </p>
+        <div class="cta-bottom-actions">
+          <button class="btn-primary open-demo-modal" style="font-size: 16px; padding: 14px 32px;">📅 Book a Free
+            Demo</button>
+          <a href="tel:+919927026557" class="btn-secondary"
+            style="font-size: 16px; padding: 14px 32px; display: inline-flex; align-items: center; gap: 8px;">📞 Call
+            +91 9927026557</a>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="faq-strip">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question"><span>Is the Marg ERP license a one-time payment or
+                recurring?</span><span>+</span></div>
+            <div class="faq-answer">The software license is a one-time fee. After the first year of free support, you
+              can optionally renew an AMC (Annual Maintenance Contract) for continued updates and support.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question"><span>What is the difference between Marg ERP and MargCloud?</span><span>+</span>
+            </div>
+            <div class="faq-answer">Marg ERP 9+ is a desktop software installed on your local computer. MargCloud is the
+              same ERP hosted on the cloud — you access it from any browser or device without installing anything.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question"><span>Do the mobile apps require a separate purchase?</span><span>+</span></div>
+            <div class="faq-answer">Most mobile apps (eRetail, eOrder, eOwner) are integrated add-ons. The eOwner app is
+              free with the Gold edition. Other apps have their own annual subscription pricing as listed above.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question"><span>Can I switch from desktop ERP to MargCloud later?</span><span>+</span></div>
+            <div class="faq-answer">Yes! Your existing data can be migrated to MargCloud. Contact us and our team will
+              assist with the migration at no additional data migration cost.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question"><span>Do you offer a free trial or demo?</span><span>+</span></div>
+            <div class="faq-answer">Absolutely! We offer a free demo session where our team will walk you through the
+              software with your actual business data. Click "Book a Free Demo" to schedule.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo-brand" style="margin-bottom: 16px;">
+            <div class="logo-icon"><img src="assets/logo.png" alt="Raizada CompuSoft" height="40px" width="40px"></div>
+            <div class="logo-text">
+              <h1>Raizada CompuSoft</h1>
+              <span>Marg® ERP Solution Partner</span>
+            </div>
+          </div>
+          <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Authorized Sales &amp; Service
+            Partner for Marg® ERP Limited. Providing Marg software, GST billing, and mobile apps in Aligarh &amp; UP.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+            <li><a href="admin.html">Admin Portal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#" onclick="switchTab('erp'); return false;">Marg ERP 9+</a></li>
+            <li><a href="#" onclick="switchTab('cloud'); return false;">MargCloud</a></li>
+            <li><a href="#" onclick="switchTab('apps'); return false;">Mobile Apps</a></li>
+            <li><a href="#" onclick="switchTab('amc'); return false;">AMC &amp; Support</a></li>
+            <li><a href="#" onclick="switchTab('gst'); return false;">GST Services</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">📍 Shop No. 16, 1st Floor, C.M.
+            Mall, Railway Road, Aligarh</p>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">📞 +91 8938077776, 9690277776,
+            9927026557</p>
+          <p style="font-size: 14px; color: var(--text-secondary);">✉️ raizadacompusoft@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© Copyright Raizada CompuSoft. Authorized Partner for Marg® ERP Limited.</p>
+        <div style="display: flex; gap: 16px;"><a href="admin.html">Staff Login</a><span>|</span><a
+            href="index.html#contact">Privacy Policy</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Demo Booking Modal -->
+  <div id="demo-modal" class="modal-overlay">
+    <div class="modal-box">
+      <button id="close-demo-modal" class="modal-close">×</button>
+      <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Get a Free Proposal</h3>
+      <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">Fill in your details and our team
+        will contact you promptly.</p>
+      <form id="demo-form">
+        <div class="form-group">
+          <label for="demo-name">Your Name *</label>
+          <input type="text" id="demo-name" required placeholder="e.g. Rajesh Raizada"
+            style="width:100%; padding:10px; background:var(--bg-primary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+        </div>
+        <div class="form-group">
+          <label for="demo-phone">Mobile Number *</label>
+          <input type="tel" id="demo-phone" required placeholder="e.g. 9927026557"
+            style="width:100%; padding:10px; background:var(--bg-primary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">Submit
+          Inquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">✅ Thanks! We'll contact you shortly.</div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // ── Product Tab Switching ──
+    function switchTab(tabId) {
+      document.querySelectorAll('.product-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+        btn.setAttribute('aria-selected', btn.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.product-tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'panel-' + tabId);
+      });
+      document.querySelector('.product-tabs-nav').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    document.querySelectorAll('.product-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (btn.dataset.tab === 'payroll') {
+          e.preventDefault();
+          window.location.href = 'payroll.html';
+          return;
+        }
+        switchTab(btn.dataset.tab);
+      });
+    });
+
+    // ── App Sub-tabs ──
+    document.querySelectorAll('.app-subtab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.app-subtab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.app-sub-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('app-panel-' + btn.dataset.app).classList.add('active');
+      });
+    });
+
+    // ── Cloud Pricing Toggle (Base / Premium) ──
+    let isPremium = false;
+    const cloudToggle = document.getElementById('cloud-toggle');
+    const lblBase = document.getElementById('lbl-base');
+    const lblPremium = document.getElementById('lbl-premium');
+    const cloudBadge = document.getElementById('cloud-badge');
+
+    function updateCloudPrices() {
+      // 1. Update Price Amounts
+      document.querySelectorAll('.cloud-price').forEach(el => {
+        const raw = isPremium ? el.dataset.premium : el.dataset.base;
+        const val = parseInt(raw, 10);
+        if (!isNaN(val)) {
+          el.textContent = val.toLocaleString('en-IN');
+        }
+      });
+
+      // 2. Update Period & Period Badges
+      document.querySelectorAll('.cloud-period').forEach(el => {
+        el.textContent = isPremium ? '(Premium)' : '(Base)';
+      });
+      document.querySelectorAll('.cloud-period-badge').forEach(el => {
+        el.textContent = isPremium ? '(Premium)' : '(Base)';
+      });
+
+      // 3. Update Price Notes & Plan Limits
+      document.querySelectorAll('.cloud-note').forEach(el => {
+        if (el.dataset.premium && el.dataset.base) {
+          el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+        }
+      });
+
+      // 4. Update Cloud Cost per user in breakdown box
+      document.querySelectorAll('.cloud-cost-user').forEach(el => {
+        if (el.dataset.premium && el.dataset.base) {
+          el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+        }
+      });
+
+      // 5. Update Dynamic Features (Hardware, Backup, Snapshots, Managed Services, DNS)
+      document.querySelectorAll('[class^="cloud-feat-"]').forEach(el => {
+        if (el.dataset.premium && el.dataset.base) {
+          el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+        }
+      });
+
+      // 6. Update Azure Backup icon in cards
+      document.querySelectorAll('.cloud-feat-azure-icon').forEach(el => {
+        el.innerHTML = isPremium
+          ? '<span class="feature-check">✓</span>'
+          : '<span class="feature-cross">✗</span>';
+      });
+
+      // 7. Update Azure Backup cell in comparison table
+      document.querySelectorAll('.cloud-table-azure').forEach(el => {
+        if (el.dataset.premium && el.dataset.base) {
+          el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+          const td = el.closest('td');
+          if (td) {
+            td.classList.toggle('check-yes', isPremium);
+            td.classList.toggle('check-no', !isPremium);
+          }
+        }
+      });
+
+      // 8. Update Toggle and Labels
+      if (lblBase) lblBase.classList.toggle('active-label', !isPremium);
+      if (lblPremium) lblPremium.classList.toggle('active-label', isPremium);
+      if (cloudToggle) {
+        cloudToggle.classList.toggle('on', isPremium);
+        cloudToggle.setAttribute('aria-checked', isPremium);
+      }
+      if (cloudBadge) {
+        cloudBadge.innerHTML = isPremium ? '⚡ 16-Core Xeon · 5x Backup · Azure' : '8-Core Xeon · 2x Daily Backup';
+        cloudBadge.classList.toggle('premium-badge', isPremium);
+      }
+    }
+
+    if (cloudToggle) {
+      cloudToggle.addEventListener('click', () => {
+        isPremium = !isPremium;
+        updateCloudPrices();
+      });
+      cloudToggle.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          isPremium = !isPremium;
+          updateCloudPrices();
+        }
+      });
+    }
+
+    if (lblBase) {
+      lblBase.addEventListener('click', () => {
+        if (isPremium) {
+          isPremium = false;
+          updateCloudPrices();
+        }
+      });
+      lblBase.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (isPremium) {
+            isPremium = false;
+            updateCloudPrices();
+          }
+        }
+      });
+    }
+
+    if (lblPremium) {
+      lblPremium.addEventListener('click', () => {
+        if (!isPremium) {
+          isPremium = true;
+          updateCloudPrices();
+        }
+      });
+      lblPremium.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (!isPremium) {
+            isPremium = true;
+            updateCloudPrices();
+          }
+        }
+      });
+    }
+
+    // ── FAQ Accordion ──
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        document.querySelectorAll('.faq-question span:last-child').forEach(s => s.textContent = '+');
+        if (!wasOpen) {
+          item.classList.add('open');
+          q.querySelector('span:last-child').textContent = '−';
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
