@@ -19,9 +19,16 @@ work/
     ├── table.html              # Software feature comparison chart (Basic/Silver/Gold)
     ├── admin.html              # Admin portal placeholder ("Coming Soon")
     ├── css/
-    │   └── styles.css          # Global design system (dark/light theme CSS variables)
+    │   ├── styles.css          # Global design system & typography (dark/light theme tokens)
+    │   ├── pricing.css         # Pricing page cards, cloud toggle, and FAQ accordion styles
+    │   ├── payroll.css         # MargHRMS comparison matrix, add-on cards, and modal styles
+    │   ├── table.css           # 93-feature comparison table styles (Dark & Light modes)
+    │   └── admin.css           # Admin placeholder shell styles
     ├── js/
-    │   ├── app.js              # Global JS: theme, mobile drawer, app tabs, demo modal
+    │   ├── app.js              # Global JS: theme toggle (rcs_theme), mobile drawer, demo modal
+    │   ├── pricing.js          # Tab switcher, cloud dynamic pricing calculator, app sub-tabs
+    │   ├── payroll.js          # Category expand/collapse, add-on module selector, lead forms
+    │   ├── table.js            # Feature matrix theme toggle and sticky header script
     │   └── hsn-data.js         # HSN/SAC code reference data
     └── assets/
         ├── logo.png
@@ -38,13 +45,13 @@ work/
 ## 🎨 Design System
 
 - **Font**: Inter (Google Fonts — 400/500/600/700/800/900)
-- **Theme**: Dark by default (`data-theme="dark"` on `<html>`), user-toggleable via localStorage key `rcs_theme`
-- **CSS Variables** (defined in `styles.css`):
-  - `--bg-primary`, `--bg-secondary`, `--bg-card`, `--bg-glass`
+- **Theme**: Dark by default (`data-theme="dark"` on `<html>`), user-toggleable via localStorage key `rcs_theme` across all pages (`index.html`, `pricing.html`, `payroll.html`, `table.html`) with zero flash on load.
+- **CSS Variables** (defined in `styles.css` & page `<style>` blocks):
+  - `--bg-primary` / `--bg`, `--bg-secondary`, `--bg-card`, `--bg-surface`, `--bg-glass`
   - `--text-primary`, `--text-secondary`, `--text-muted`
-  - `--accent-primary` (indigo `#6366f1`), `--accent-secondary` (violet `#a78bfa`)
-  - `--border-color`, `--shadow-*`
-- **pricing.html** has its own `<style>` block (~700 lines) for all pricing-specific components
+  - `--accent-primary` / `--accent` (indigo `#6366f1`), `--accent-secondary` / `--accent-2` (violet/cyan)
+  - `--border-color` / `--border`, `--shadow-*`
+- **Natural Logo Scaling**: `.logo-img` and `.brand-logo` preserve the original 1.81:1 aspect ratio with transparent backgrounds.
 
 ---
 
@@ -168,6 +175,7 @@ Redirects to `payroll.html` (MargHRMS dedicated pricing & HR matrix page).
 ### `payroll.html` — MargHRMS Payroll & HRMS Pricing
 
 - Dedicated pricing page for MargHRMS software tailored 100% for India (INR pricing, PF/ESI/TDS statutory compliance).
+- **Theme Support**: Integrated dark/light mode toggle in top-bar synced with `localStorage('rcs_theme')`.
 - **3 Plans**:
   - **Basic**: ₹7,200/yr (Up to 25 Employees &bull; Extra ₹20/emp/mo)
   - **Silver (⭐ Most Popular)**: ₹18,000/yr (Up to 50 Employees &bull; Extra ₹25/emp/mo)
@@ -182,8 +190,8 @@ Redirects to `payroll.html` (MargHRMS dedicated pricing & HR matrix page).
 ### `table.html` — Software Feature Comparison
 
 - 93 features compared across Basic / Silver / Gold
-- Self-contained CSS (dark theme, Inter font, indigo gradient header, green/red FA icons)
-- Sticky top bar with "← Back to Pricing" button → `pricing.html#panel-erp`
+- Self-contained CSS with full **Dark / Light mode support** and theme-toggle button in top bar.
+- Sticky top bar with Raizada CompuSoft logo, subtitle, Feature Matrix tag, and "← Back to ERP Plans" button → `pricing.html#panel-erp`
 - Footer: `*Customisation extra · We do not sell through online portals`
 - URL: `http://localhost:8080/table.html`
 
@@ -195,34 +203,27 @@ Redirects to `payroll.html` (MargHRMS dedicated pricing & HR matrix page).
 
 ---
 
-## ⚙️ JavaScript (`js/app.js`)
+## ⚙️ JavaScript Architecture (`frontend/js/`)
 
-| Function | Purpose |
+| File | Purpose |
 |---|---|
-| `initThemeToggle()` | Dark/light toggle, persists via `localStorage('rcs_theme')` |
-| `initMobileMenu()` | Hamburger → `#mobile-drawer`, close button removes `.open` |
-| `initMobileAppTabs()` | Homepage app switcher — `.app-tab-btn` → updates phone mockup |
-| `initDemoModal()` | `.open-demo-modal` → `#demo-modal`, form submit shows `#toast` for 3s |
+| `js/app.js` | Global helpers: `initThemeToggle()` (rcs_theme), `initMobileMenu()`, `initMobileAppTabs()`, `initDemoModal()`, `showToast()` |
+| `js/pricing.js` | `switchTab(tabId)`, app sub-tabs, `updateCloudPrices()` dynamic cloud calculator & toggle, FAQ accordion |
+| `js/payroll.js` | MargHRMS category row collapse/expand, add-on plan selector (Basic/Silver/Gold), lead & demo booking forms |
+| `js/table.js` | Standalone theme toggle and icon switcher for the feature comparison matrix |
+| `js/hsn-data.js` | HSN/SAC code dictionary and search dataset |
 
 ---
 
-## 🔧 `pricing.html` Embedded Script (bottom of file)
+## 🎨 Stylesheets Architecture (`frontend/css/`)
 
-| Function | Purpose |
+| File | Purpose |
 |---|---|
-| `switchTab(tabId)` | Switches 5 product tabs |
-| App sub-tab listener | `data-app` → `#app-panel-{app}` show/hide |
-| `updateCloudPrices()` | Reads `.dataset.base` / `.dataset.premium` on all cloud elements |
-| Cloud toggle listeners | `#cloud-toggle`, `#lbl-base`, `#lbl-premium`, keyboard Enter/Space |
-
-**Dynamic cloud classes:**
-- `.cloud-price` — price amount spans
-- `.cloud-period` / `.cloud-period-badge` — "(Base)" / "(Premium)" labels
-- `.cloud-note` — user limit notes
-- `.cloud-cost-user` — cost breakdown
-- `[class^="cloud-feat-"]` — hardware, backup, snapshots, managed services, DNS
-- `.cloud-feat-azure-icon` — ✓/✗ icon for Azure Backup in cards
-- `.cloud-table-azure` — Azure Backup table cells
+| `css/styles.css` | Global tokens, reset, typography, navbar, footer, buttons, toast notification |
+| `css/pricing.css` | Product tab nav, ERP edition cards, Cloud hosting cards & matrix, App cards, FAQ |
+| `css/payroll.css` | MargHRMS modules matrix table, popular column highlight, Add-on selector grid, CTA |
+| `css/table.css` | 93-feature comparison table layout, dark/light theme tokens, sticky brand bar |
+| `css/admin.css` | Admin placeholder layout, badge, and mockup shell |
 
 ---
 
@@ -234,19 +235,20 @@ python -m http.server 8080 --directory frontend
 
 - Homepage → http://localhost:8080/
 - Pricing → http://localhost:8080/pricing.html
+- Payroll (MargHRMS) → http://localhost:8080/payroll.html
 - Feature Table → http://localhost:8080/table.html
 - Admin → http://localhost:8080/admin.html
 
-> No build step — pure HTML/CSS/JS.
+> No build step — pure HTML/CSS/JS with modular separation of concerns.
 
 ---
 
 ## 📌 Key Conventions
 
 1. **`data-base` / `data-premium`** for cloud toggle (NOT `data-monthly` / `data-annual`)
-2. **No Tailwind** — Vanilla CSS with CSS custom properties only
-3. **pricing.html** has its own large `<style>` block + imports `styles.css`
-4. **table.html** is fully self-contained — does not import `styles.css`
+2. **No Tailwind** — Modular Vanilla CSS with CSS custom properties (`--bg`, `--text-*`, etc.)
+3. **Dedicated CSS & JS files** in `css/` and `js/` folders — no large inline `<style>` or `<script>` tags
+4. **Shared theme state** via `localStorage.getItem('rcs_theme')` with zero-flash `<script>` in `<head>`
 5. **All ERP prices are annual renewal fees** — 18% GST extra on all
 6. **eOrder/eBilling/eDelivery/eRetail share identical pricing tiers** — one combined sub-tab
 7. **admin.html is a placeholder** — real admin panel not yet built
