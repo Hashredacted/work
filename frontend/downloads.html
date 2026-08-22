@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads | Marg ERP & Mobile Apps | Raizada CompuSoft</title>
+  <meta name="description"
+    content="Download Marg ERP 9+ software, MargCloud agent, MargHRMS, eRetail, eOrder, eOwner, SFAXpert, PharmaNXT, GPS app and remote support tools from Raizada CompuSoft, Aligarh.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/downloads.css">
+  <script>
+    const _t = localStorage.getItem('rcs_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', _t);
+  </script>
+</head>
+
+<body>
+
+  <!-- Top Contact Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-contacts">
+        <span>📍 Shop 16, C.M. Mall, Railway Road, Aligarh</span>
+        <a href="tel:+918938077776">📞 +91 8938077776</a>
+        <a href="mailto:raizadacompusoft@gmail.com">✉️ raizadacompusoft@gmail.com</a>
+      </div>
+      <div class="top-right">
+        <a href="admin.html" class="admin-link">🔒 Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-brand">
+        <img src="assets/logo.png" alt="Raizada CompuSoft" class="logo-img">
+        <div class="logo-text">
+          <span style="font-size:16px; font-weight:800; color:var(--text-primary);">Raizada CompuSoft</span>
+          <span style="font-size:11px; font-weight:600; color:#f59e0b; text-transform:uppercase; letter-spacing:0.5px;">Marg® ERP Solution Partner</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="downloads.html" style="color: var(--accent-secondary); font-weight: 700;">Downloads</a>
+        <a href="index.html#contact">Contact Us</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="downloads-hero">
+    <div class="container">
+      <div class="hero-badge-pill">⬇ Software & Apps Download Centre</div>
+      <h1>Download <span class="gradient-text">Marg® Software & Apps</span></h1>
+      <p>Get the latest installers for Marg ERP desktop software, cloud agent, mobile apps for Android & iOS, HRMS payroll software, and remote support tools.</p>
+    </div>
+  </section>
+
+  <!-- Search & Filter -->
+  <div class="container">
+    <div class="download-controls">
+      <div class="search-box-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="dl-search" class="search-input" placeholder="Search software, apps…" autocomplete="off">
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab-btn active" data-cat="all">All</button>
+        <button class="filter-tab-btn" data-cat="erp">🖥️ ERP</button>
+        <button class="filter-tab-btn" data-cat="mobile">📱 Mobile Apps</button>
+        <button class="filter-tab-btn" data-cat="hrms">👔 HRMS / Payroll</button>
+        <button class="filter-tab-btn" data-cat="support">🛠️ Remote Support</button>
+      </div>
+    </div>
+
+    <!-- Downloads Grid — populated dynamically by downloads.js via /api/downloads -->
+    <style>
+      .dl-loading { grid-column:1/-1; text-align:center; padding:60px 20px; font-size:15px; color:var(--text-muted); }
+      .dl-empty-state { grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--text-muted); }
+    </style>
+    <div class="downloads-grid" id="downloads-grid"></div>
+
+    <!-- Remote Support Banner -->
+    <div class="support-banner-box">
+      <div class="support-banner-text">
+        <h3>🛠️ Need Remote Support?</h3>
+        <p>Download AnyDesk or TeamViewer and call us. Our technician will connect to your screen and assist with Marg ERP installation, configuration, training, or any technical issue — instantly.</p>
+      </div>
+      <div class="support-contacts-grid">
+        <a href="tel:+918938077776" class="btn-contact-quick">📞 +91 89380 77776</a>
+        <a href="tel:+919690277776" class="btn-contact-quick">📞 +91 96902 77776</a>
+        <a href="https://wa.me/918938077776" target="_blank" class="btn-contact-quick btn-contact-whatsapp">💬 WhatsApp</a>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- QR / Mobile Links Modal -->
+  <div class="dl-modal-overlay" id="qr-modal">
+    <div class="dl-modal-card">
+      <button class="modal-close-icon" id="qr-modal-close" aria-label="Close">✕</button>
+      <div style="font-size:42px; margin-bottom:12px;">📲</div>
+      <h3 id="qr-modal-title" style="font-size:20px; font-weight:800; margin-bottom:6px;">App</h3>
+      <p id="qr-modal-subtitle" style="font-size:13px; color:var(--text-secondary); margin-bottom:20px;"></p>
+      <div id="qr-modal-links" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;"></div>
+      <p style="margin-top:20px; font-size:12px; color:var(--text-muted);">Open the link on your phone or search the app name in your app store.</p>
+    </div>
+  </div>
+
+  <!-- Download Toast -->
+  <div class="dl-toast" id="dl-toast"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="logo-brand footer-logo">
+            <img src="assets/logo.png" alt="Raizada CompuSoft" class="logo-img">
+          </a>
+          <p>Authorized Sales & Service Partner for Marg® ERP Limited. Providing Marg software, GST billing, and mobile apps in Aligarh & UP.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="payroll.html">Payroll (MargHRMS)</a></li>
+            <li><a href="table.html">Feature Comparison</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:8px;">📍 Shop No. 16, 1st Floor, C.M. Mall, Railway Road, Aligarh</p>
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:8px;">📞 +91 8938077776, 9690277776, 9927026557</p>
+          <p style="font-size:14px; color:var(--text-secondary);">✉️ raizadacompusoft@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© Copyright Raizada CompuSoft. Authorized Partner for Marg® ERP Limited.</p>
+        <div style="display: flex; gap: 16px;">
+          <a href="admin.html">Staff Login</a>
+          <span>|</span>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/downloads.js"></script>
+</body>
+
+</html>

@@ -1,8 +1,54 @@
 # Raizada CompuSoft – Marg® ERP Partner Website
 
 Full-stack website for **Raizada CompuSoft**, the authorized Marg® ERP sales & service partner in Aligarh, UP.
+Built with a **Node.js/Express backend** that serves the frontend, manages admin data (downloads, pricing, logo, settings) via REST API, and handles logo file uploads.
 
-> **Dev server**: `python -m http.server 8080 --directory frontend` → http://localhost:8080
+---
+
+## 🚀 Quick Start
+
+### 1 — Install dependencies (first time only)
+
+```bash
+cd backend
+npm install
+```
+
+### 2 — Start the server
+
+```bash
+cd backend
+npm start
+```
+
+> The Express server serves **both** the frontend and the API from a single process.
+
+| URL | Description |
+|---|---|
+| http://localhost:3001 | Homepage |
+| http://localhost:3001/pricing.html | Pricing Plans |
+| http://localhost:3001/payroll.html | MargHRMS Payroll |
+| http://localhost:3001/downloads.html | Software Downloads |
+| http://localhost:3001/table.html | Feature Comparison |
+| http://localhost:3001/admin.html | Admin Portal 🔒 |
+| http://localhost:3001/api/health | API Health Check |
+
+**Admin credentials:** Password `RCS@2026` (change in `backend/config.js`)
+
+### 3 — Stop & restart
+
+If you see `EADDRINUSE: address already in use :::3001`, a server is already running.
+Kill it first, then restart:
+
+```powershell
+# Find and kill the process using port 3001
+netstat -ano | findstr :3001
+# Note the PID from the last column, then:
+taskkill /PID <PID> /F
+
+# Now start fresh
+cd backend && npm start
+```
 
 ---
 
@@ -11,25 +57,46 @@ Full-stack website for **Raizada CompuSoft**, the authorized Marg® ERP sales & 
 ```
 work/
 ├── README.md
-├── backend/                    # (placeholder — not yet implemented)
+├── backend/                        # Node.js / Express server
+│   ├── server.js                   # Entry point — serves frontend + /api on port 3001
+│   ├── config.js                   # Port, password, JWT secret (env-var overridable)
+│   ├── package.json
+│   ├── middleware/
+│   │   └── auth.js                 # JWT Bearer token verification middleware
+│   ├── routes/
+│   │   ├── auth.js                 # POST /api/auth/login · GET /api/auth/me
+│   │   ├── downloads.js            # Full CRUD  /api/downloads
+│   │   ├── pricing.js              # Read/Update /api/pricing/:group
+│   │   ├── logo.js                 # Upload/reset /api/logo  (Multer)
+│   │   └── settings.js             # Read/Update /api/settings
+│   ├── data/                       # Flat-file JSON persistence (no database needed)
+│   │   ├── downloads.json          # 11 seed download entries
+│   │   ├── pricing.json            # ERP / Cloud / HRMS price tables
+│   │   └── settings.json           # Site contact info, address, etc.
+│   └── uploads/
+│       └── logo/                   # Logo files uploaded via admin panel
 └── frontend/
-    ├── index.html              # Main homepage
-    ├── pricing.html            # Pricing page (ERP 9+, MargCloud, Mobile Apps, Payroll redirect)
-    ├── payroll.html            # MargHRMS Payroll & HRMS pricing page (Basic/Silver/Gold)
-    ├── table.html              # Software feature comparison chart (Basic/Silver/Gold)
-    ├── admin.html              # Admin portal placeholder ("Coming Soon")
+    ├── index.html                  # Homepage
+    ├── pricing.html                # Pricing page (ERP, Cloud, Mobile Apps, Payroll & Downloads tabs)
+    ├── payroll.html                # MargHRMS Payroll & HRMS pricing (Basic / Silver / Gold)
+    ├── table.html                  # 93-feature software comparison chart
+    ├── downloads.html              # Download centre (ERP, Mobile Apps, HRMS, Remote Support)
+    ├── admin.html                  # Admin portal (login → dashboard → CRUD panels)
     ├── css/
-    │   ├── styles.css          # Global design system & typography (dark/light theme tokens)
-    │   ├── pricing.css         # Pricing page cards, cloud toggle, and FAQ accordion styles
-    │   ├── payroll.css         # MargHRMS comparison matrix, add-on cards, and modal styles
-    │   ├── table.css           # 93-feature comparison table styles (Dark & Light modes)
-    │   └── admin.css           # Admin placeholder shell styles
+    │   ├── styles.css              # Global design system & typography (dark/light theme tokens)
+    │   ├── pricing.css             # Pricing page cards, cloud toggle, FAQ accordion
+    │   ├── payroll.css             # MargHRMS comparison matrix, add-on cards, modal
+    │   ├── table.css               # 93-feature comparison table (dark & light modes)
+    │   ├── downloads.css           # Download centre cards, filter tabs, search, QR modal
+    │   └── admin.css               # Admin panel sidebar, forms, CRUD table, modal, toast
     ├── js/
-    │   ├── app.js              # Global JS: theme toggle (rcs_theme), mobile drawer, demo modal
-    │   ├── pricing.js          # Tab switcher, cloud dynamic pricing calculator, app sub-tabs
-    │   ├── payroll.js          # Category expand/collapse, add-on module selector, lead forms
-    │   ├── table.js            # Feature matrix theme toggle and sticky header script
-    │   └── hsn-data.js         # HSN/SAC code reference data
+    │   ├── app.js                  # Global: theme toggle (rcs_theme), mobile drawer, demo modal
+    │   ├── pricing.js              # Tab switcher, cloud pricing calculator, app sub-tabs
+    │   ├── payroll.js              # Category expand/collapse, add-on selector, lead forms
+    │   ├── table.js                # Feature matrix theme toggle & sticky header
+    │   ├── downloads.js            # Search filter, category tabs, download toast, QR modal
+    │   ├── admin.js                # Admin panel: API fetch, CRUD, logo upload, pricing editor
+    │   └── hsn-data.js             # HSN/SAC code reference data
     └── assets/
         ├── logo.png
         ├── eRetail.png
@@ -42,16 +109,92 @@ work/
 
 ---
 
+## 🔌 REST API Reference
+
+All write routes require `Authorization: Bearer <token>` (obtained from `POST /api/auth/login`).
+
+### Auth
+
+| Method | Route | Auth | Body / Response |
+|---|---|---|---|
+| `POST` | `/api/auth/login` | No | `{ password }` → `{ token, expiresIn }` |
+| `GET` | `/api/auth/me` | Yes | → `{ role, ok }` |
+
+### Downloads
+
+| Method | Route | Auth | Description |
+|---|---|---|---|
+| `GET` | `/api/downloads` | No | Visible entries only |
+| `GET` | `/api/downloads/all` | Yes | All entries (including hidden) |
+| `POST` | `/api/downloads` | Yes | Create entry |
+| `PUT` | `/api/downloads/:id` | Yes | Update entry |
+| `DELETE` | `/api/downloads/:id` | Yes | Delete entry |
+
+### Pricing
+
+| Method | Route | Auth | Description |
+|---|---|---|---|
+| `GET` | `/api/pricing` | No | All groups (erp, cloud, hrms) |
+| `GET` | `/api/pricing/:group` | No | Single group |
+| `PUT` | `/api/pricing/:group` | Yes | Update group (array of `{key, label, price}`) |
+
+### Logo
+
+| Method | Route | Auth | Description |
+|---|---|---|---|
+| `GET` | `/api/logo` | No | Active logo URL |
+| `POST` | `/api/logo` | Yes | Upload new logo (`multipart/form-data`, field: `logo`) |
+| `DELETE` | `/api/logo` | Yes | Reset to default (`assets/logo.png`) |
+
+### Settings
+
+| Method | Route | Auth | Description |
+|---|---|---|---|
+| `GET` | `/api/settings` | No | All site settings |
+| `PUT` | `/api/settings` | Yes | Update fields (siteName, address, phone1–3, email, whatsapp, googleMapsUrl) |
+
+---
+
+## 🔒 Admin Portal (`/admin.html`)
+
+| Section | Capability |
+|---|---|
+| **Dashboard** | Stats overview, quick actions, links to all site pages |
+| **Logo Manager** | Drag & drop upload → saved to `backend/uploads/logo/`; reset to default |
+| **Downloads Manager** | Full CRUD table — add/edit/delete any download entry; toggle visibility |
+| **Pricing Manager** | Edit ₹ values for ERP, MargCloud, and MargHRMS plans |
+| **Settings** | Edit business name, address, phone numbers, email, WhatsApp, Google Maps URL |
+
+---
+
+## ⚙️ Configuration
+
+Edit `backend/config.js` or set environment variables before running:
+
+```bash
+PORT=3001                              # Server port (default: 3001)
+ADMIN_PASSWORD=YourPassword            # Admin login password (default: RCS@2026)
+JWT_SECRET=your-long-random-secret    # JWT signing secret (change in production!)
+```
+
+Example with environment variables:
+
+```powershell
+$env:ADMIN_PASSWORD="MyNewPassword"; $env:PORT=8080; node server.js
+```
+
+---
+
 ## 🎨 Design System
 
 - **Font**: Inter (Google Fonts — 400/500/600/700/800/900)
-- **Theme**: Dark by default (`data-theme="dark"` on `<html>`), user-toggleable via localStorage key `rcs_theme` across all pages (`index.html`, `pricing.html`, `payroll.html`, `table.html`) with zero flash on load.
-- **CSS Variables** (defined in `styles.css` & page `<style>` blocks):
+- **Theme**: Dark by default (`data-theme="dark"` on `<html>`), user-toggleable via localStorage key `rcs_theme` — zero flash on load via inline `<script>` in `<head>`.
+- **CSS Variables** (defined in `styles.css`):
   - `--bg-primary` / `--bg`, `--bg-secondary`, `--bg-card`, `--bg-surface`, `--bg-glass`
   - `--text-primary`, `--text-secondary`, `--text-muted`
-  - `--accent-primary` / `--accent` (indigo `#6366f1`), `--accent-secondary` / `--accent-2` (violet/cyan)
-  - `--border-color` / `--border`, `--shadow-*`
-- **Natural Logo Scaling**: `.logo-img` and `.brand-logo` preserve the original 1.81:1 aspect ratio with transparent backgrounds.
+  - `--accent-primary` (indigo `#6366f1`), `--accent-secondary` (cyan)
+  - `--border-color`, `--shadow-*`
+- **Natural Logo Scaling**: `.logo-img` preserves the original aspect ratio with transparent backgrounds.
 
 ---
 
@@ -62,12 +205,12 @@ work/
 | Section | Details |
 |---|---|
 | Top bar | Address, 3 phone numbers, email, theme toggle, admin link |
-| Hero | "Empower Your Business with Marg® ERP Software" + CTA buttons |
+| Hero | "Empower Your Business with Marg® ERP Software" + CTA |
 | About | Raizada CompuSoft authorized partner description |
-| Mobile Apps Showcase | Interactive 6-app tab switcher with phone mockup |
-| GST & Compliance | e-Invoicing, e-Way Bill, GST Billing, HSN/SAC Finder links |
-| Contact CTA | "Can We Help Your Business Grow?" with demo modal |
-| Footer | Address, phones, links |
+| Mobile Apps | Interactive 6-app tab switcher with phone mockup |
+| GST & Compliance | e-Invoicing, e-Way Bill, GST Billing, HSN/SAC Finder |
+| Contact CTA | Demo booking modal |
+| Footer | Address, phones, quick links (incl. Downloads) |
 
 **Contact Info:**
 - 📍 Shop No. 16, 1st Floor, C.M. Mall, Railway Road, Aligarh
@@ -76,179 +219,81 @@ work/
 
 ---
 
-### `pricing.html` — Pricing Plans (5 Product Tabs)
+### `pricing.html` — Pricing Plans
 
-URL: `http://localhost:8080/pricing.html`
+5 product tabs: **Marg ERP 9+** · **MargCloud** · **Mobile Apps** · **Payroll** · **Downloads**
 
 #### Tab 1 — Marg ERP 9+ (Desktop Software)
 
-**4 pricing cards** — Annual renewal license, 18% GST extra:
-
-| Edition | Price/yr | Users | Notes |
-|---|---|---|---|
-| Marg ERP Nano | ₹5,550 | Max 2 users / 2 Company | Versions: 1.0, 2.0, 3.0, 4.0 · ₹3,000/extra user |
-| Basic Edition *(Limited)* | ₹10,300 | 1 Full Rights · Max 2u/2c | ARC @ ₹1,050/user · ₹1,030/company |
-| Silver Edition ⭐ | ₹13,900 | 1 Full Rights + 1 View | ARC @ ₹1,050/user · ₹1,030/company |
-| Gold Edition | ₹26,000 | Unlimited Users + Company | All Silver features + multi-branch |
-
-**Nano version comparison** (inline table, `id="nano-compare-table"`):
-
-| | Nano 1.0 | Nano 2.0 | Nano 3.0 | Nano 4.0 |
-|---|---|---|---|---|
-| Bills Limit | 600/Month | Unlimited | 1000/Month | Unlimited |
-| Sales Limit | ₹2.5L/Month | ₹40L/Year | ₹3.5L/Month | ₹80L/Year |
-| Business Type | Pharma & General | Composition | Non-Pharma | Non-Pharma |
-
-**"View Full Feature Comparison" button** → links to `table.html`
-
----
-
-#### Tab 2 — MargCloud (Cloud Hosting)
-
-**Base / Premium toggle** (`id="cloud-toggle"`, `aria-checked`) — replaces Monthly/Annual.
-- Label IDs: `#lbl-base`, `#lbl-premium`
-- Badge: `#cloud-badge`
-
-**JS uses `el.dataset.base` / `el.dataset.premium`** (NOT `data-monthly` / `data-annual`)
-
-**3 cloud plans:**
-
-| Plan | Base Price | Premium Price |
+| Edition | Price/yr | Notes |
 |---|---|---|
-| Marg Basic Cloud | ₹17,800/yr | ₹21,100/yr |
-| Marg Silver Cloud ⭐ | ₹21,400/yr | ₹24,700/yr |
-| Marg Enterprise Cloud | Custom | Custom |
+| Nano | ₹5,550 | Max 2 users / 2 Company |
+| Basic | ₹10,300 | 1 Full Rights |
+| Silver ⭐ | ₹13,900 | 1 Full Rights + 1 View |
+| Gold | ₹26,000 | Unlimited Users + Company |
 
-**Spec differences Base vs Premium:**
+#### Tab 2 — MargCloud (Hosted Plans)
 
-| Spec | Base | Premium |
+| Plan | Base/yr | Premium/yr |
 |---|---|---|
-| CPU | Xeon 8-Core | Xeon 16-Core |
-| RAM | 64 GB | 128 GB |
-| Backup/day | 2 | 5 |
-| Azure Backup | NA | Yes |
-| Snapshots | 1/day | 4/day |
-| Managed Services | Comprehensive | Extensive |
-| DNS | Marg Domain | Customer / Marg Domain |
-
----
+| Basic Cloud | ₹17,800 | ₹21,100 |
+| Silver Cloud ⭐ | ₹21,400 | ₹24,700 |
+| Enterprise | Custom | Custom |
 
 #### Tab 3 — Mobile Apps (5 sub-tabs)
+eOrder/eBilling/eDelivery/eRetail · eOwner · SFAXpert · GPS Tracking · PharmaNXT
 
-Sub-tab buttons use `data-app="..."` → shows `#app-panel-{app}`:
-
-| Sub-tab | Panel ID |
-|---|---|
-| eOrder / eBilling / eDelivery / eRetail | `app-panel-eorder` |
-| eOwner | `app-panel-eowner` |
-| SFAXpert | `app-panel-sfaxpert` |
-| GPS Tracking | `app-panel-gps` |
-| PharmaNXT | `app-panel-pharmanxt` |
-
-**eOrder / eBilling / eDelivery / eRetail plans (all 4 apps share same tiers):**
-
-| Plan | Price/yr | Salesmen | Retailers |
-|---|---|---|---|
-| Starter | ₹5,550 | 2 | Unlimited |
-| Standard | ₹7,500 | 5 | Unlimited |
-| Growth 🔥 New | ₹13,900 | 12 | Unlimited |
-| Business | ₹25,000 | 25 | Unlimited |
-| Enterprise | ₹46,500 | Unlimited | Unlimited |
-
-**eOwner plans:**
-
-| Plan | Price/yr | Owners |
-|---|---|---|
-| Solo Owner | ₹4,100 | 1 |
-| Duo Owners ⭐ | ₹5,550 | 2 |
-| Group Owners | ₹10,250 | 5 |
-
----
-
-#### Tab 4 — Payroll (MargHRMS)
-Redirects to `payroll.html` (MargHRMS dedicated pricing & HR matrix page).
-
-*(Note: AMC & Support and GST Services tabs were removed per requirements).*
+#### Tabs 4 & 5 — Payroll / Downloads
+Redirect to `payroll.html` and `downloads.html` respectively.
 
 ---
 
 ### `payroll.html` — MargHRMS Payroll & HRMS Pricing
 
-- Dedicated pricing page for MargHRMS software tailored 100% for India (INR pricing, PF/ESI/TDS statutory compliance).
-- **Theme Support**: Integrated dark/light mode toggle in top-bar synced with `localStorage('rcs_theme')`.
-- **3 Plans**:
-  - **Basic**: ₹7,200/yr (Up to 25 Employees &bull; Extra ₹20/emp/mo)
-  - **Silver (⭐ Most Popular)**: ₹18,000/yr (Up to 50 Employees &bull; Extra ₹25/emp/mo)
-  - **Gold**: ₹36,000/yr (Up to 50 Employees &bull; Extra ₹50/emp/mo)
-- **Interactive Matrix**: Collapsible categories (Login & Access, Core Features, Attendance Tracking, Leave Management, Payroll & Compliance, Mobile ESS App, Hardware Integration).
-- **Add-On Modules Selector**: Dynamic tabs (Basic/Silver/Gold) showing pricing for GPS tracking, Face/Selfie recognition, PMS, TMS, and Multi-Company support.
-- **Booking Modal & CTA**: Integrated 10-digit mobile number validation and demo booking.
-- URL: `http://localhost:8080/payroll.html`
+| Plan | Price/yr | Employees |
+|---|---|---|
+| Basic | ₹7,200 | Up to 25 |
+| Silver ⭐ | ₹18,000 | Up to 50 |
+| Gold | ₹36,000 | Up to 50 |
+
+Interactive feature matrix, add-on module selector (GPS / Face recognition / PMS / TMS / Multi-Company), and demo booking modal. Full dark/light mode support.
 
 ---
 
-### `table.html` — Software Feature Comparison
+### `table.html` — 93-Feature Comparison
 
-- 93 features compared across Basic / Silver / Gold
-- Self-contained CSS with full **Dark / Light mode support** and theme-toggle button in top bar.
-- Sticky top bar with Raizada CompuSoft logo, subtitle, Feature Matrix tag, and "← Back to ERP Plans" button → `pricing.html#panel-erp`
-- Footer: `*Customisation extra · We do not sell through online portals`
-- URL: `http://localhost:8080/table.html`
+Sticky header comparison across Basic / Silver / Gold. Dark/light mode toggle. Links back to `pricing.html#panel-erp`.
 
 ---
 
-### `admin.html` — Admin Portal Placeholder
+### `downloads.html` — Download Centre
 
-"Coming Soon / Under Development" — linked from index.html top bar.
+11 download cards across 4 categories:
 
----
-
-## ⚙️ JavaScript Architecture (`frontend/js/`)
-
-| File | Purpose |
+| Category | Items |
 |---|---|
-| `js/app.js` | Global helpers: `initThemeToggle()` (rcs_theme), `initMobileMenu()`, `initMobileAppTabs()`, `initDemoModal()`, `showToast()` |
-| `js/pricing.js` | `switchTab(tabId)`, app sub-tabs, `updateCloudPrices()` dynamic cloud calculator & toggle, FAQ accordion |
-| `js/payroll.js` | MargHRMS category row collapse/expand, add-on plan selector (Basic/Silver/Gold), lead & demo booking forms |
-| `js/table.js` | Standalone theme toggle and icon switcher for the feature comparison matrix |
-| `js/hsn-data.js` | HSN/SAC code dictionary and search dataset |
+| 🖥️ ERP | Marg ERP 9+, MargCloud Agent |
+| 📱 Mobile | eRetail, eOrder, eOwner, SFAXpert, PharmaNXT, GPS |
+| 👔 HRMS | MargHRMS |
+| 🛠️ Support | AnyDesk, TeamViewer |
+
+Live search, category filter tabs, mobile QR modal, download toast notifications.
 
 ---
 
-## 🎨 Stylesheets Architecture (`frontend/css/`)
+### `admin.html` — Admin Portal
 
-| File | Purpose |
-|---|---|
-| `css/styles.css` | Global tokens, reset, typography, navbar, footer, buttons, toast notification |
-| `css/pricing.css` | Product tab nav, ERP edition cards, Cloud hosting cards & matrix, App cards, FAQ |
-| `css/payroll.css` | MargHRMS modules matrix table, popular column highlight, Add-on selector grid, CTA |
-| `css/table.css` | 93-feature comparison table layout, dark/light theme tokens, sticky brand bar |
-| `css/admin.css` | Admin placeholder layout, badge, and mockup shell |
-
----
-
-## 🚀 Running Locally
-
-```powershell
-python -m http.server 8080 --directory frontend
-```
-
-- Homepage → http://localhost:8080/
-- Pricing → http://localhost:8080/pricing.html
-- Payroll (MargHRMS) → http://localhost:8080/payroll.html
-- Feature Table → http://localhost:8080/table.html
-- Admin → http://localhost:8080/admin.html
-
-> No build step — pure HTML/CSS/JS with modular separation of concerns.
+Password-protected (default: `RCS@2026`). Full CRUD admin panel — see [Admin Portal section](#-admin-portal-adminhtml) above.
 
 ---
 
 ## 📌 Key Conventions
 
-1. **`data-base` / `data-premium`** for cloud toggle (NOT `data-monthly` / `data-annual`)
-2. **No Tailwind** — Modular Vanilla CSS with CSS custom properties (`--bg`, `--text-*`, etc.)
-3. **Dedicated CSS & JS files** in `css/` and `js/` folders — no large inline `<style>` or `<script>` tags
+1. **`data-base` / `data-premium`** for cloud pricing toggle (NOT `data-monthly` / `data-annual`)
+2. **No Tailwind** — Modular Vanilla CSS with CSS custom properties
+3. **Dedicated CSS & JS files** in `css/` and `js/` — no large inline `<style>` or `<script>` blocks
 4. **Shared theme state** via `localStorage.getItem('rcs_theme')` with zero-flash `<script>` in `<head>`
-5. **All ERP prices are annual renewal fees** — 18% GST extra on all
-6. **eOrder/eBilling/eDelivery/eRetail share identical pricing tiers** — one combined sub-tab
-7. **admin.html is a placeholder** — real admin panel not yet built
+5. **All ERP prices are annual renewal fees** — 18% GST extra on all plans
+6. **eOrder/eBilling/eDelivery/eRetail share identical pricing tiers** (one combined sub-tab)
+7. **Admin JWT tokens** are stored in `sessionStorage` (cleared on tab close)
+8. **Data persistence** uses flat JSON files in `backend/data/` — no external database required

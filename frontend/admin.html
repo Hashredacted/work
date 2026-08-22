@@ -1,68 +1,508 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Portal Placeholder | Raizada CompuSoft</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Admin Portal | Raizada CompuSoft</title>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="container">
-      <div class="top-contacts">
-        <span class="partner-badge">Raizada CompuSoft - Admin Portal</span>
+  <!-- ══════════════════════════════════════ -->
+  <!-- LOGIN SCREEN                          -->
+  <!-- ══════════════════════════════════════ -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-logo-wrap">
+        <img src="assets/logo.png" alt="Raizada CompuSoft" id="login-logo-img">
       </div>
-      <div class="top-right">
-        <a href="index.html" class="admin-link">← Back to Homepage</a>
+      <div class="login-title">🛡️ Admin Portal</div>
+      <div class="login-sub">Raizada CompuSoft — Staff Only Access</div>
+      <form id="login-form" autocomplete="off">
+        <div class="login-field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter admin password" autofocus>
+        </div>
+        <div id="login-error" class="login-error"></div>
+        <button type="submit" class="login-btn">Sign In →</button>
+      </form>
+      <p class="login-hint">Default: RCS@2026 &nbsp;•&nbsp; <a href="index.html" style="color:#6366f1;">← Back to site</a></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- ADMIN APP SHELL                       -->
+  <!-- ══════════════════════════════════════ -->
+  <div id="admin-app">
+    <div class="admin-layout">
+
+      <!-- ── Sidebar ── -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+          <img src="assets/logo.png" alt="RCS Logo" id="sidebar-logo">
+          <div class="brand-label">
+            <strong>Raizada CompuSoft</strong>
+            <span>Admin Panel</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section-label">Overview</div>
+          <button class="sidebar-nav-item" data-panel="dashboard">
+            <span class="nav-icon">📊</span> Dashboard
+          </button>
+
+          <div class="nav-section-label">Content Management</div>
+          <button class="sidebar-nav-item" data-panel="logo">
+            <span class="nav-icon">🖼️</span> Logo Manager
+          </button>
+          <button class="sidebar-nav-item" data-panel="downloads">
+            <span class="nav-icon">⬇</span> Downloads
+          </button>
+          <button class="sidebar-nav-item" data-panel="pricing">
+            <span class="nav-icon">💰</span> Pricing
+          </button>
+
+          <div class="nav-section-label">System</div>
+          <button class="sidebar-nav-item" data-panel="settings">
+            <span class="nav-icon">⚙️</span> Settings
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a href="index.html" class="btn-ghost-sm" style="width:100%; justify-content:center;">🏠 Back to Site</a>
+        </div>
+      </aside>
+
+      <!-- ── Main ── -->
+      <div class="admin-main">
+
+        <!-- Top Bar -->
+        <div class="admin-topbar">
+          <div class="topbar-left">
+            <h2 id="topbar-title">Dashboard</h2>
+            <p id="topbar-subtitle">Welcome back, Admin</p>
+          </div>
+          <div class="topbar-right">
+            <span class="topbar-badge">● Logged In</span>
+            <button class="btn-logout" id="btn-logout">Sign Out</button>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════ -->
+        <!-- PANEL: DASHBOARD                  -->
+        <!-- ══════════════════════════════════ -->
+        <div class="admin-panel active" id="panel-dashboard">
+          <div class="panel-title">Dashboard</div>
+          <div class="panel-subtitle">Site content overview</div>
+
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📦</div>
+              <div class="stat-label">Total Downloads</div>
+              <div class="stat-value" id="stat-total-downloads">—</div>
+              <div class="stat-sub">All entries</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div class="stat-label">Visible / Live</div>
+              <div class="stat-value" id="stat-visible-downloads">—</div>
+              <div class="stat-sub">Shown on downloads page</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🖥️</div>
+              <div class="stat-label">ERP Apps</div>
+              <div class="stat-value" id="stat-erp-count">—</div>
+              <div class="stat-sub">Desktop software</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📱</div>
+              <div class="stat-label">Mobile Apps</div>
+              <div class="stat-value" id="stat-mobile-count">—</div>
+              <div class="stat-sub">Android & iOS</div>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">Quick Actions</div>
+                <div class="section-box-subtitle">Jump to management sections</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <button class="btn-primary-sm" onclick="navigateTo('logo')">🖼️ Manage Logo</button>
+              <button class="btn-primary-sm" onclick="navigateTo('downloads'); openAddDownload();">+ Add Download</button>
+              <button class="btn-primary-sm" onclick="navigateTo('pricing');">💰 Edit Pricing</button>
+              <button class="btn-ghost-sm" onclick="exportData()">📤 Export Data</button>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title" style="margin-bottom:12px;">Site Pages</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+              <a href="index.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">🏠 Homepage</a>
+              <a href="pricing.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">💰 Pricing Page</a>
+              <a href="payroll.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">👔 Payroll Page</a>
+              <a href="downloads.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">⬇ Downloads Page</a>
+              <a href="table.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">📊 Feature Table</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════ -->
+        <!-- PANEL: LOGO MANAGER               -->
+        <!-- ══════════════════════════════════ -->
+        <div class="admin-panel" id="panel-logo">
+          <div class="panel-title">Logo Manager</div>
+          <div class="panel-subtitle">Upload a new logo. It will be stored in the browser and applied site-wide.</div>
+
+          <div class="section-box">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">Current Logos</div>
+                <div class="section-box-subtitle">Active logos displayed on the site</div>
+              </div>
+            </div>
+            <div class="logo-preview-box">
+              <div class="logo-preview-card">
+                <img src="assets/logo.png" alt="Default Logo" id="logo-current-img">
+                <span>Default (File)</span>
+              </div>
+              <div class="logo-preview-card" id="logo-stored-box" style="display:none;">
+                <img src="" alt="Custom Logo" id="logo-stored-img">
+                <span style="color:#22c55e;">Custom (Active)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-box" id="logo-upload-section">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">Upload New Logo</div>
+                <div class="section-box-subtitle">PNG, JPG, SVG or WebP. Recommended: transparent PNG, height ~60px.</div>
+              </div>
+            </div>
+
+            <div class="logo-drop-zone" id="logo-drop-zone">
+              <div style="font-size:40px; margin-bottom:12px;">🖼️</div>
+              <div class="drop-label" style="font-size:15px; font-weight:600; color:#e2e8f0; margin-bottom:6px;">Drag & Drop your logo here</div>
+              <div style="font-size:12px; color:var(--admin-muted);">or click to browse files</div>
+              <input type="file" id="logo-file-input" accept="image/*" style="display:none;">
+            </div>
+
+            <div id="logo-upload-preview-box" style="display:none; margin-top:20px;">
+              <div class="logo-preview-card" style="display:inline-block;">
+                <img src="" alt="Preview" id="logo-upload-preview">
+                <span>Preview</span>
+              </div>
+            </div>
+
+            <div class="form-actions" style="margin-top:20px;">
+              <button class="btn-primary-sm" id="btn-save-logo">💾 Save Logo</button>
+              <button class="btn-danger-sm" id="btn-reset-logo">🔄 Reset to Default</button>
+            </div>
+          </div>
+
+          <div class="section-box" style="background:rgba(245,158,11,0.06); border-color:rgba(245,158,11,0.25);">
+            <div style="color:#f59e0b; font-size:13.5px; font-weight:600; margin-bottom:6px;">⚠️ Note</div>
+            <p style="font-size:13px; color:var(--admin-muted); line-height:1.6;">
+              Since this is a static site with no backend, logos are stored in <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">localStorage</code> in the current browser only.
+              To deploy a new logo permanently, replace the <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">assets/logo.png</code> file on the server.
+            </p>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════ -->
+        <!-- PANEL: DOWNLOADS MANAGER          -->
+        <!-- ══════════════════════════════════ -->
+        <div class="admin-panel" id="panel-downloads">
+          <div class="panel-title">Downloads Manager</div>
+          <div class="panel-subtitle">Add, edit, and delete software download entries shown on the Downloads page.</div>
+
+          <div class="section-box">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">All Downloads</div>
+                <div class="section-box-subtitle">Changes are saved to browser storage and reflected on the downloads page.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn-ghost-sm" onclick="resetDownloads()">🔄 Reset Defaults</button>
+                <button class="btn-primary-sm" onclick="openAddDownload()">+ Add New</button>
+              </div>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Platform</th>
+                    <th>Version</th>
+                    <th>Size</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="downloads-tbody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════ -->
+        <!-- PANEL: PRICING MANAGER            -->
+        <!-- ══════════════════════════════════ -->
+        <div class="admin-panel" id="panel-pricing">
+          <div class="pricing-top-actions">
+            <div>
+              <div class="panel-title">Pricing Manager</div>
+              <div class="panel-subtitle" style="margin-bottom:0;">Live product pricing database. Updates made here are saved directly to the backend API (<code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">/api/pricing</code>) and update the website instantly.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn-ghost-sm" onclick="loadPricing()">↺ Reload from Server</button>
+              <button class="btn-primary-sm" onclick="openAddPriceModal()">+ Add Price Item</button>
+              <button class="btn-primary-sm" onclick="saveAllPricingGroups()" style="background:linear-gradient(135deg,#22c55e,#16a34a);">💾 Save All Changes</button>
+            </div>
+          </div>
+
+          <!-- Group Filter Tabs -->
+          <div class="pricing-filter-tabs">
+            <button class="pricing-filter-btn active" data-group-filter="all">All Groups</button>
+            <button class="pricing-filter-btn" data-group-filter="erp">🖥️ Marg ERP 9+</button>
+            <button class="pricing-filter-btn" data-group-filter="cloud">☁️ MargCloud</button>
+            <button class="pricing-filter-btn" data-group-filter="mobile_eorder">🚚 eOrder / eRetail</button>
+            <button class="pricing-filter-btn" data-group-filter="mobile_eowner">📊 eOwner</button>
+            <button class="pricing-filter-btn" data-group-filter="mobile_other">🎯 SFAXpert / GPS / PharmaNXT</button>
+            <button class="pricing-filter-btn" data-group-filter="hrms">👔 MargHRMS Payroll</button>
+          </div>
+
+          <!-- Dynamic Pricing Groups Container -->
+          <div id="pricing-groups-container">
+            <!-- Rendered by admin.js -->
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════ -->
+        <!-- PANEL: SETTINGS                   -->
+        <!-- ══════════════════════════════════ -->
+        <div class="admin-panel" id="panel-settings">
+          <div class="panel-title">Settings</div>
+          <div class="panel-subtitle">Manage site contact info, business details, and admin configuration.</div>
+
+          <!-- Site Info -->
+          <div class="section-box">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">🏢 Business Information</div>
+                <div class="section-box-subtitle">Displayed in the footer and contact sections of the site</div>
+              </div>
+              <button class="btn-primary-sm" onclick="saveSettings()">💾 Save Settings</button>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Site / Business Name</label>
+                <input type="text" class="form-input" id="s-site-name" placeholder="Raizada CompuSoft">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tagline</label>
+                <input type="text" class="form-input" id="s-tagline" placeholder="Authorized Marg® ERP Solution Partner">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-input" id="s-address" placeholder="Shop No. 16, C.M. Mall, Railway Road, Aligarh">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone 1</label>
+                <input type="text" class="form-input" id="s-phone1" placeholder="+91 8938077776">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone 2</label>
+                <input type="text" class="form-input" id="s-phone2" placeholder="+91 9690277776">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone 3</label>
+                <input type="text" class="form-input" id="s-phone3" placeholder="+91 9927026557">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="s-email" placeholder="raizadacompusoft@gmail.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp Number (digits only)</label>
+                <input type="text" class="form-input" id="s-whatsapp" placeholder="918938077776">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Google Maps URL</label>
+                <input type="url" class="form-input" id="s-maps-url" placeholder="https://maps.google.com/...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="section-box">
+            <div class="section-box-title" style="margin-bottom:10px;">🔐 Admin Password</div>
+            <p style="font-size:13px; color:var(--admin-muted); margin-bottom:12px;">Edit the <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">ADMIN_PASSWORD</code> value in <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">backend/config.js</code> (or set the <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">ADMIN_PASSWORD</code> environment variable) and restart the server.</p>
+            <div style="background:var(--admin-bg);border:1px solid var(--admin-border);border-radius:8px;padding:12px 16px;font-family:monospace;font-size:13px;color:#94a3b8;">ADMIN_PASSWORD=YourNewPassword node server.js</div>
+          </div>
+
+          <!-- Data Management -->
+          <div class="section-box">
+            <div class="section-box-title" style="margin-bottom:16px;">💾 Data Management</div>
+            <p style="font-size:13px; color:var(--admin-muted); margin-bottom:16px;">Export all data (downloads, pricing, settings) as a JSON backup, or import from a previous export.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <button class="btn-primary-sm" onclick="exportData()">📤 Export Backup (JSON)</button>
+              <button class="btn-ghost-sm" onclick="importData()">📥 Import Backup (JSON)</button>
+              <input type="file" id="import-file" accept=".json" style="display:none;">
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /admin-main -->
+    </div><!-- /admin-layout -->
+  </div><!-- /admin-app -->
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- DOWNLOAD ADD/EDIT MODAL               -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="admin-modal" id="dl-modal">
+    <div class="admin-modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="dl-modal-title">+ Add Download</div>
+        <button class="modal-close" onclick="closeDownloadModal()">✕</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Software Name *</label>
+          <input type="text" class="form-input" id="dl-name" placeholder="e.g. Marg ERP 9+">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subtitle / Description</label>
+          <input type="text" class="form-input" id="dl-subtitle" placeholder="e.g. Billing & Accounting">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="dl-category">
+            <option value="erp">🖥️ ERP</option>
+            <option value="mobile">📱 Mobile Apps</option>
+            <option value="hrms">👔 HRMS / Payroll</option>
+            <option value="support">🛠️ Remote Support</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Platform</label>
+          <input type="text" class="form-input" id="dl-platform" placeholder="e.g. Windows / Android / iOS">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Version</label>
+          <input type="text" class="form-input" id="dl-version" placeholder="e.g. v9.9.x or Latest">
+        </div>
+        <div class="form-group">
+          <label class="form-label">File Size</label>
+          <input type="text" class="form-input" id="dl-size" placeholder="e.g. ~85 MB or App Store">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Download URL *</label>
+          <input type="url" class="form-input" id="dl-url" placeholder="https://...">
+        </div>
+        <div class="form-group" style="flex-direction:row;align-items:center;gap:10px;">
+          <input type="checkbox" id="dl-visible" checked style="width:16px;height:16px;accent-color:var(--admin-accent);">
+          <label class="form-label" for="dl-visible" style="text-transform:none;font-size:13.5px;font-weight:600;color:var(--admin-text);">Show on downloads page (visible)</label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary-sm" onclick="saveDownloadEntry()">💾 Save Entry</button>
+        <button class="btn-ghost-sm" onclick="closeDownloadModal()">Cancel</button>
       </div>
     </div>
   </div>
 
-  <main class="container admin-placeholder-container">
-    <div class="placeholder-icon">🛡️</div>
-    <span class="badge-dev">🚧 Coming Soon / Under Development</span>
-    <h1 style="font-size: 36px; font-weight: 800; margin-bottom: 12px;">Admin Management Portal</h1>
-    <p style="color: var(--text-secondary); max-width: 540px; margin-bottom: 28px;">
-      The Raizada Compusoft Admin Gateway for managing client demo requests, incoming software leads, AMC renewal
-      tracking, and HSN catalog updates will be activated here after client approval.
-    </p>
+  <!-- ══════════════════════════════════════ -->
+  <!-- ADD/EDIT PRICING ITEM MODAL           -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="admin-modal" id="price-modal">
+    <div class="admin-modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="price-modal-title">+ Add Price Item</div>
+        <button class="modal-close" onclick="closePriceModal()">✕</button>
+      </div>
 
-    <div style="display: flex; gap: 16px;">
-      <a href="index.html" class="btn-primary">Return to Main Homepage</a>
-    </div>
-
-    <!-- Preview Shell -->
-    <div class="admin-preview-shell">
-      <h3 style="margin-bottom: 12px; color: var(--text-muted);">[ Mockup Preview Shell ]</h3>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
-        <div style="background: var(--bg-primary); padding: 16px; border-radius: 8px;">
-          <small style="color: var(--text-muted);">Incoming Leads</small>
-          <div style="font-size: 20px; font-weight: 700; color: var(--accent-secondary); margin-top: 4px;">28 New</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Product Group *</label>
+          <select class="form-select" id="pm-group">
+            <option value="erp">🖥️ Marg ERP 9+ Desktop</option>
+            <option value="cloud">☁️ MargCloud Hosted</option>
+            <option value="mobile_eorder">🚚 eOrder / eRetail / eBilling / eDelivery</option>
+            <option value="mobile_eowner">📊 eOwner (Business Owners)</option>
+            <option value="mobile_other">🎯 SFAXpert / GPS / PharmaNXT</option>
+            <option value="hrms">👔 MargHRMS Payroll</option>
+          </select>
         </div>
-        <div style="background: var(--bg-primary); padding: 16px; border-radius: 8px;">
-          <small style="color: var(--text-muted);">Pending Demos</small>
-          <div style="font-size: 20px; font-weight: 700; color: var(--marg-orange); margin-top: 4px;">12 Scheduled</div>
+        <div class="form-group full">
+          <label class="form-label">Plan / Item Name *</label>
+          <input type="text" class="form-input" id="pm-label" placeholder="e.g. Starter Plan (2 Salesmen) or Multi-Company License">
         </div>
-        <div style="background: var(--bg-primary); padding: 16px; border-radius: 8px;">
-          <small style="color: var(--text-muted);">Active AMCs</small>
-          <div style="font-size: 20px; font-weight: 700; color: var(--success-color); margin-top: 4px;">450+ Clients
-          </div>
+        <div class="form-group">
+          <label class="form-label">Price (INR ₹) *</label>
+          <input type="number" class="form-input" id="pm-price" placeholder="e.g. 5550">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Billing Unit / Period</label>
+          <input type="text" class="form-input" id="pm-unit" placeholder="/yr, /mo, /user/yr, /emp/mo, /co/yr" value="/yr">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Unique Key / Slug (optional)</label>
+          <input type="text" class="form-input" id="pm-key" placeholder="e.g. eorder_custom_tier">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Plan Note / Features Subtitle</label>
+          <input type="text" class="form-input" id="pm-note" placeholder="e.g. 2 Salesmen · Unlimited Retailers · Annual Renewal">
         </div>
       </div>
-      <p style="font-size: 13px; color: var(--text-muted);">Full dashboard functionality will be rendered upon backend /
-        admin phase release.</p>
-    </div>
-  </main>
 
+      <div class="form-actions">
+        <button class="btn-primary-sm" onclick="saveNewPriceItem()">💾 Add Price Item</button>
+        <button class="btn-ghost-sm" onclick="closePriceModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- CONFIRM DELETE DIALOG                 -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="confirm-dialog" id="confirm-dialog">
+    <div class="confirm-card">
+      <div style="font-size:40px; margin-bottom:12px;">🗑️</div>
+      <h3>Delete Entry?</h3>
+      <p>Are you sure you want to delete <strong id="confirm-delete-name"></strong>? This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn-danger-sm" onclick="executeDelete()" style="padding:10px 20px;">Delete</button>
+        <button class="btn-ghost-sm" onclick="closeConfirm()" style="padding:10px 20px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="admin-toast" id="admin-toast"></div>
+
+  <script src="js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initLogoUpload();
+    });
+  </script>
 </body>
 
 </html>
