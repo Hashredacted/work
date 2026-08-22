@@ -17,6 +17,9 @@ const settingsSchema = new mongoose.Schema(
     whatsapp:     { type: String, default: '', trim: true },
     googleMapsUrl:{ type: String, default: '', trim: true },
     logoFile:     { type: String, default: null },
+    marqueeEnabled: { type: Boolean, default: true },
+    marqueeTitle: { type: String, default: 'Trusted by 5,000+ Businesses Across India', trim: true },
+    marqueeImages: [{ type: String, trim: true }],
   },
   { timestamps: true }
 );

@@ -11,8 +11,11 @@ let TOKEN = sessionStorage.getItem('rcs_admin_token') || null;
 let downloads = [];
 let pricing   = {};
 let settings  = {};
-let editingDownloadId = null;
-let deleteTargetId    = null;
+let partners  = [];
+let editingDownloadId  = null;
+let deleteTargetId     = null;
+let editingPartnerId   = null;
+let partnerDeleteMode  = false;
 
 // ═══════════════ INIT ═══════════════
 document.addEventListener('DOMContentLoaded', () => {
@@ -45,7 +48,7 @@ async function showApp() {
 }
 
 async function loadAll() {
-  await Promise.all([loadDownloads(), loadPricing(), loadSettings(), loadLogo()]);
+  await Promise.all([loadDownloads(), loadPricing(), loadSettings(), loadLogo(), loadPartners()]);
 }
 
 // ═══════════════ API HELPER ═══════════════
@@ -105,6 +108,7 @@ function navigateTo(panel) {
     logo:      ['Logo Manager', 'Upload and manage site logos'],
     downloads: ['Downloads Manager', 'CRUD — software download entries'],
     pricing:   ['Pricing Manager', 'Edit live pricing on the website'],
+    partners:  ['Partners Manager', 'Manage partner listings & logos'],
     settings:  ['Settings', 'Admin portal configuration'],
   };
   const t = titles[panel] || ['Admin', ''];
@@ -126,6 +130,8 @@ function renderDashboard() {
   document.getElementById('stat-visible-downloads').textContent = downloads.filter(d => d.visible).length;
   document.getElementById('stat-erp-count').textContent         = downloads.filter(d => d.category === 'erp').length;
   document.getElementById('stat-mobile-count').textContent      = downloads.filter(d => d.category === 'mobile').length;
+  const pStat = document.getElementById('stat-partners-count');
+  if (pStat) pStat.textContent = partners.filter(p => p.visible).length;
 }
 
 // ═══════════════ LOGO ═══════════════
@@ -306,6 +312,7 @@ window.saveDownloadEntry = async function () {
 };
 
 window.confirmDelete = function (id) {
+  partnerDeleteMode = false;
   deleteTargetId = id;
   const item = downloads.find(d => String(d.id) === String(id));
   document.getElementById('confirm-delete-name').textContent = item?.name || 'this entry';
@@ -314,9 +321,16 @@ window.confirmDelete = function (id) {
 
 window.executeDelete = async function () {
   try {
-    await apiJSON('DELETE', `/downloads/${deleteTargetId}`);
-    showToast('✓ Entry deleted.');
-    await loadDownloads();
+    if (partnerDeleteMode) {
+      await apiJSON('DELETE', `/partners/${deleteTargetId}`);
+      showToast('✓ Partner deleted.');
+      await loadPartners();
+      partnerDeleteMode = false;
+    } else {
+      await apiJSON('DELETE', `/downloads/${deleteTargetId}`);
+      showToast('✓ Entry deleted.');
+      await loadDownloads();
+    }
   } catch (ex) {
     showToast('Delete failed: ' + ex.message, 'error');
   }
@@ -330,6 +344,7 @@ window.closeDownloadModal = function () {
 
 window.closeConfirm = function () {
   document.getElementById('confirm-dialog').classList.remove('open');
+  partnerDeleteMode = false;
 };
 
 function resetDownloadForm() {
@@ -579,11 +594,17 @@ async function loadSettings() {
       's-site-name': 'siteName', 's-tagline': 'tagline', 's-address': 'address',
       's-phone1': 'phone1', 's-phone2': 'phone2', 's-phone3': 'phone3',
       's-email': 'email', 's-whatsapp': 'whatsapp', 's-maps-url': 'googleMapsUrl',
+      's-marquee-title': 'marqueeTitle',
     };
     for (const [id, key] of Object.entries(map)) {
       const el = document.getElementById(id);
       if (el && settings[key] !== undefined) el.value = settings[key];
     }
+    const marqueeEnabledEl = document.getElementById('s-marquee-enabled');
+    if (marqueeEnabledEl) {
+      marqueeEnabledEl.value = settings.marqueeEnabled !== false ? 'true' : 'false';
+    }
+    renderMarqueePhotos();
   } catch { /* server offline */ }
 }
 
@@ -592,11 +613,16 @@ window.saveSettings = async function () {
     's-site-name': 'siteName', 's-tagline': 'tagline', 's-address': 'address',
     's-phone1': 'phone1', 's-phone2': 'phone2', 's-phone3': 'phone3',
     's-email': 'email', 's-whatsapp': 'whatsapp', 's-maps-url': 'googleMapsUrl',
+    's-marquee-title': 'marqueeTitle',
   };
   const body = {};
   for (const [id, key] of Object.entries(map)) {
     const el = document.getElementById(id);
     if (el) body[key] = el.value;
+  }
+  const marqueeEnabledEl = document.getElementById('s-marquee-enabled');
+  if (marqueeEnabledEl) {
+    body.marqueeEnabled = marqueeEnabledEl.value === 'true';
   }
   try {
     settings = await apiJSON('PUT', '/settings', body);
@@ -605,6 +631,95 @@ window.saveSettings = async function () {
     showToast('Save failed: ' + ex.message, 'error');
   }
 };
+
+// ── Marquee Photos Management ──
+function renderMarqueePhotos() {
+  const grid = document.getElementById('marquee-photos-grid');
+  const countEl = document.getElementById('marquee-photos-count');
+  const images = settings.marqueeImages || [];
+
+  if (countEl) countEl.textContent = images.length;
+  if (!grid) return;
+
+  if (images.length === 0) {
+    grid.innerHTML = `<div style="color:var(--admin-muted); font-size:13px; grid-column:1/-1; text-align:center; padding:24px 0;">No photos uploaded to the marquee yet. Use the upload box above.</div>`;
+    return;
+  }
+
+  grid.innerHTML = images.map((imgUrl, idx) => {
+    const filename = imgUrl.split('/').pop();
+    return `
+      <div class="marquee-photo-card">
+        <img src="${imgUrl}" alt="Marquee photo ${idx + 1}" class="marquee-photo-thumb" onerror="this.src='assets/logo.png'">
+        <span style="font-size:10px; color:var(--admin-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%; text-align:center;" title="${filename}">${filename}</span>
+        <button type="button" class="marquee-photo-delete" onclick="deleteMarqueePhoto('${imgUrl.replace(/'/g, "\\'")}')">🗑 Remove</button>
+      </div>`;
+  }).join('');
+}
+
+window.uploadMarqueePhotos = async function (files) {
+  if (!files || files.length === 0) return;
+  const formData = new FormData();
+  for (let i = 0; i < files.length; i++) {
+    formData.append('photos', files[i]);
+  }
+
+  showToast('Uploading marquee photos…');
+  try {
+    const res = await apiFetch('POST', '/settings/marquee/upload', formData, true);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Upload failed');
+    settings.marqueeImages = data.marqueeImages;
+    renderMarqueePhotos();
+    showToast(`✓ ${files.length} photo${files.length > 1 ? 's' : ''} added to marquee!`);
+    const input = document.getElementById('marquee-file-input');
+    if (input) input.value = '';
+  } catch (err) {
+    showToast(err.message || 'Upload failed', 'error');
+  }
+};
+
+window.deleteMarqueePhoto = async function (imagePath) {
+  if (!confirm('Remove this photo from the homepage marquee?')) return;
+  try {
+    const res = await apiFetch('DELETE', '/settings/marquee/image', { imagePath });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Delete failed');
+    settings.marqueeImages = data.marqueeImages;
+    renderMarqueePhotos();
+    showToast('✓ Photo removed from marquee.');
+  } catch (err) {
+    showToast(err.message || 'Delete failed', 'error');
+  }
+};
+
+function initMarqueeDropZone() {
+  const dropZone = document.getElementById('marquee-drop-zone');
+  if (!dropZone) return;
+
+  ['dragenter', 'dragover'].forEach(name => {
+    dropZone.addEventListener(name, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add('drag-over');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(name => {
+    dropZone.addEventListener(name, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('drag-over');
+    });
+  });
+
+  dropZone.addEventListener('drop', (e) => {
+    const files = e.dataTransfer?.files;
+    if (files && files.length > 0) {
+      uploadMarqueePhotos(files);
+    }
+  });
+}
 
 window.changePassword = function () {
   showToast('Password management requires a backend config change. Edit ADMIN_PASSWORD in backend/config.js.', 'error');
@@ -663,3 +778,183 @@ function showToast(msg, type = 'success') {
   clearTimeout(toast._timer);
   toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
 }
+
+// ═══════════════ PARTNERS CRUD ═══════════════
+
+async function loadPartners() {
+  try {
+    partners = await apiJSON('GET', '/partners?all=1');
+    renderPartners();
+    updatePartnerStats();
+  } catch (err) {
+    console.warn('Partners load failed:', err.message);
+  }
+}
+
+function getHostname(urlStr) {
+  if (!urlStr) return '';
+  try {
+    const formatted = /^https?:\/\//i.test(urlStr) ? urlStr : 'https://' + urlStr;
+    return new URL(formatted).hostname;
+  } catch {
+    return urlStr;
+  }
+}
+
+function renderPartners() {
+  const tbody = document.getElementById('partners-tbody');
+  const label = document.getElementById('partners-count-label');
+  if (!tbody) return;
+
+  if (label) label.textContent = `${partners.length} partner${partners.length !== 1 ? 's' : ''} total`;
+
+  if (partners.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--admin-muted);">No partners yet. Click "+ Add Partner" to add one.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = partners.map(p => {
+    const logoHtml = p.logo
+      ? `<img src="${p.logo}" alt="${esc(p.name)}" style="height:36px;width:36px;object-fit:contain;border-radius:6px;background:var(--admin-bg);border:1px solid var(--admin-border);padding:3px;display:block;">`
+      : `<span style="font-size:22px;display:block;text-align:center;">🤝</span>`;
+    const visibleBadge = p.visible
+      ? `<span style="background:rgba(34,197,94,0.12);color:var(--admin-green);padding:3px 10px;border-radius:10px;font-size:11.5px;font-weight:700;">● Live</span>`
+      : `<span style="background:rgba(239,68,68,0.12);color:var(--admin-red);padding:3px 10px;border-radius:10px;font-size:11.5px;font-weight:700;">○ Hidden</span>`;
+    
+    const loc = [p.city, p.state].filter(Boolean).join(', ');
+    const locHtml = loc
+      ? `<span style="font-size:12px; color:var(--admin-text); display:inline-flex; align-items:center; gap:4px; font-weight:600;">📍 ${esc(loc)}</span>`
+      : '<span style="color:var(--admin-muted); font-size:12px;">—</span>';
+
+    const webHref = p.website ? (/^https?:\/\//i.test(p.website) ? p.website : 'https://' + p.website) : '';
+    const websiteLink = webHref
+      ? `<a href="${webHref}" target="_blank" rel="noopener noreferrer" style="color:var(--admin-accent);font-size:12.5px;font-weight:500;">${esc(getHostname(p.website))} ↗</a>`
+      : '<span style="color:var(--admin-muted);font-size:12px;">—</span>';
+
+    return `
+      <tr>
+        <td style="vertical-align:middle;">${logoHtml}</td>
+        <td><strong style="color:#fff;">${esc(p.name)}</strong><br><span style="font-size:11px;color:var(--admin-muted);">${esc((p.description || '').slice(0, 50))}${p.description && p.description.length > 50 ? '…' : ''}</span></td>
+        <td>${locHtml}</td>
+        <td>${websiteLink}</td>
+        <td style="text-align:center;font-weight:600;">${p.order || 0}</td>
+        <td>${visibleBadge}</td>
+        <td>
+          <div class="table-actions">
+            <button class="btn-edit-sm" onclick="editPartner('${p.id}')">✏️ Edit</button>
+            <button class="btn-danger-sm" onclick="confirmDeletePartner('${p.id}', '${esc(p.name)}')">🗑</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+  renderDashboard();
+}
+
+function updatePartnerStats() {
+  const el = document.getElementById('stat-partners-count');
+  if (el) el.textContent = partners.filter(p => p.visible).length;
+}
+
+window.openAddPartner = function () {
+  editingPartnerId = null;
+  document.getElementById('partner-modal-title').textContent = 'Add Partner';
+  document.getElementById('pm-name').value     = '';
+  document.getElementById('pm-order').value    = '';
+  document.getElementById('pm-city').value     = '';
+  document.getElementById('pm-state').value    = '';
+  document.getElementById('pm-website').value  = '';
+  document.getElementById('pm-desc').value     = '';
+  document.getElementById('pm-visible').value  = 'true';
+  document.getElementById('pm-logo-file').value = '';
+  document.getElementById('pm-logo-current-wrap').style.display = 'none';
+  document.getElementById('pm-save-btn').textContent = '💾 Save Partner';
+  document.getElementById('partner-modal').classList.add('open');
+};
+
+window.editPartner = function (id) {
+  const p = partners.find(x => String(x.id) === String(id));
+  if (!p) return;
+  editingPartnerId = id;
+  document.getElementById('partner-modal-title').textContent = 'Edit Partner';
+  document.getElementById('pm-name').value     = p.name || '';
+  document.getElementById('pm-order').value    = p.order ?? 0;
+  document.getElementById('pm-city').value     = p.city || '';
+  document.getElementById('pm-state').value    = p.state || '';
+  document.getElementById('pm-website').value  = p.website || '';
+  document.getElementById('pm-desc').value     = p.description || '';
+  document.getElementById('pm-visible').value  = p.visible ? 'true' : 'false';
+  document.getElementById('pm-logo-file').value = '';
+
+  const logoWrap = document.getElementById('pm-logo-current-wrap');
+  const logoImg  = document.getElementById('pm-logo-current');
+  if (p.logo) {
+    logoImg.src = p.logo;
+    logoWrap.style.display = 'block';
+  } else {
+    logoWrap.style.display = 'none';
+  }
+
+  document.getElementById('pm-save-btn').textContent = '💾 Update Partner';
+  document.getElementById('partner-modal').classList.add('open');
+};
+
+window.savePartner = async function () {
+  const name = document.getElementById('pm-name').value.trim();
+  if (!name) { showToast('Partner name is required.', 'error'); return; }
+
+  const payload = {
+    name,
+    order:       Number(document.getElementById('pm-order').value) || 0,
+    city:        document.getElementById('pm-city').value.trim(),
+    state:       document.getElementById('pm-state').value.trim(),
+    website:     document.getElementById('pm-website').value.trim(),
+    description: document.getElementById('pm-desc').value.trim(),
+    visible:     document.getElementById('pm-visible').value === 'true',
+  };
+
+  const btn = document.getElementById('pm-save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+
+  try {
+    let saved;
+    if (editingPartnerId) {
+      saved = await apiJSON('PUT', `/partners/${editingPartnerId}`, payload);
+    } else {
+      saved = await apiJSON('POST', '/partners', payload);
+    }
+
+    // Upload logo file if selected
+    const fileInput = document.getElementById('pm-logo-file');
+    if (fileInput.files && fileInput.files[0]) {
+      const formData = new FormData();
+      formData.append('logo', fileInput.files[0]);
+      const logoRes = await apiFetch('POST', `/partners/${saved.id}/logo`, formData, true);
+      if (logoRes.ok) {
+        const logoData = await logoRes.json();
+        saved = logoData.partner;
+      }
+    }
+
+    closePartnerModal();
+    await loadPartners();
+    showToast(editingPartnerId ? '✓ Partner updated!' : '✓ Partner added!');
+  } catch (err) {
+    showToast(err.message || 'Save failed.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 Save Partner';
+  }
+};
+
+window.confirmDeletePartner = function (id, name) {
+  partnerDeleteMode = true;
+  deleteTargetId = id;
+  document.getElementById('confirm-delete-name').textContent = name;
+  document.getElementById('confirm-dialog').classList.add('open');
+};
+
+window.closePartnerModal = function () {
+  document.getElementById('partner-modal').classList.remove('open');
+  editingPartnerId = null;
+};

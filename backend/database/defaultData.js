@@ -177,6 +177,57 @@ module.exports = {
     email: "raizadacompusoft@gmail.com",
     whatsapp: "918938077776",
     googleMapsUrl: "",
-    logoFile: null
-  }
+    logoFile: null,
+    marqueeEnabled: true,
+    marqueeTitle: "Trusted by 5,000+ Businesses Across India",
+    marqueeImages: []
+  },
+
+  partners: [
+    {
+      name: "Marg ERP",
+      description: "India's leading billing & accounting software company. Raizada CompuSoft is an authorized Marg® ERP Solution Partner.",
+      website: "https://www.margbooks.com",
+      category: "Technology",
+      city: "Noida",
+      state: "Uttar Pradesh",
+      logo: "",
+      visible: true,
+      order: 1
+    },
+    {
+      name: "Microsoft Azure",
+      description: "Cloud infrastructure powering MargCloud deployments with enterprise-grade uptime and security.",
+      website: "https://azure.microsoft.com",
+      category: "Cloud",
+      city: "Global",
+      state: "Worldwide",
+      logo: "",
+      visible: true,
+      order: 2
+    },
+    {
+      name: "GST Suvidha Kendra",
+      description: "Authorized GST filing and compliance partner supporting our customers' tax needs.",
+      website: "https://www.gstsuvidhakendra.org",
+      category: "Finance & Compliance",
+      city: "New Delhi",
+      state: "Delhi",
+      logo: "",
+      visible: true,
+      order: 3
+    },
+    {
+      name: "AnyDesk",
+      description: "Remote support solution used by our team to provide instant remote assistance to customers.",
+      website: "https://anydesk.com",
+      category: "Technology",
+      city: "Stuttgart",
+      state: "Germany",
+      logo: "",
+      visible: true,
+      order: 4
+    }
+  ]
 };
+

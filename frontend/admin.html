@@ -68,6 +68,9 @@
           <button class="sidebar-nav-item" data-panel="pricing">
             <span class="nav-icon">💰</span> Pricing
           </button>
+          <button class="sidebar-nav-item" data-panel="partners">
+            <span class="nav-icon">🤝</span> Partners
+          </button>
 
           <div class="nav-section-label">System</div>
           <button class="sidebar-nav-item" data-panel="settings">
@@ -127,6 +130,12 @@
               <div class="stat-value" id="stat-mobile-count">—</div>
               <div class="stat-sub">Android & iOS</div>
             </div>
+            <div class="stat-card">
+              <div class="stat-icon">🤝</div>
+              <div class="stat-label">Partners</div>
+              <div class="stat-value" id="stat-partners-count">—</div>
+              <div class="stat-sub">Active listings</div>
+            </div>
           </div>
 
           <div class="section-box">
@@ -137,21 +146,23 @@
               </div>
             </div>
             <div style="display:flex; gap:12px; flex-wrap:wrap;">
-              <button class="btn-primary-sm" onclick="navigateTo('logo')">🖼️ Manage Logo</button>
+              <button class="btn-primary-sm" onclick="navigateTo('logo')">&#128444;&#65039; Manage Logo</button>
               <button class="btn-primary-sm" onclick="navigateTo('downloads'); openAddDownload();">+ Add Download</button>
-              <button class="btn-primary-sm" onclick="navigateTo('pricing');">💰 Edit Pricing</button>
-              <button class="btn-ghost-sm" onclick="exportData()">📤 Export Data</button>
+              <button class="btn-primary-sm" onclick="navigateTo('pricing');">&#128176; Edit Pricing</button>
+              <button class="btn-primary-sm" onclick="navigateTo('partners'); openAddPartner();">&#129309; Add Partner</button>
+              <button class="btn-ghost-sm" onclick="exportData()">&#128228; Export Data</button>
             </div>
           </div>
 
           <div class="section-box">
             <div class="section-box-title" style="margin-bottom:12px;">Site Pages</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
-              <a href="index.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">🏠 Homepage</a>
-              <a href="pricing.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">💰 Pricing Page</a>
-              <a href="payroll.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">👔 Payroll Page</a>
-              <a href="downloads.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">⬇ Downloads Page</a>
-              <a href="table.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">📊 Feature Table</a>
+              <a href="index.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">&#127968; Homepage</a>
+              <a href="pricing.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">&#128176; Pricing Page</a>
+              <a href="payroll.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">&#128084; Payroll Page</a>
+              <a href="downloads.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">&#11015; Downloads Page</a>
+              <a href="partners.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">&#129309; Partners Page</a>
+              <a href="table.html" target="_blank" class="btn-ghost-sm" style="display:flex;justify-content:center;">&#128202; Feature Table</a>
             </div>
           </div>
         </div>
@@ -293,6 +304,43 @@
         </div>
 
         <!-- ══════════════════════════════════ -->
+        <!-- PANEL: PARTNERS                   -->
+        <!-- ══════════════════════════════════ -->
+        <div class="admin-panel" id="panel-partners">
+          <div class="panel-title">Partners</div>
+          <div class="panel-subtitle">Manage partner listings shown on the public Partners page.</div>
+
+          <div class="section-box">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">All Partners</div>
+                <div class="section-box-subtitle" id="partners-count-label">Loading…</div>
+              </div>
+              <button class="btn-primary-sm" onclick="openAddPartner()">+ Add Partner</button>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="partners-table">
+                <thead>
+                  <tr>
+                    <th style="width:50px;">Logo</th>
+                    <th>Partner Name</th>
+                    <th>Location</th>
+                    <th>Website</th>
+                    <th style="width:70px; text-align:center;">Order</th>
+                    <th style="width:90px;">Visible</th>
+                    <th style="width:120px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="partners-tbody">
+                  <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--admin-muted);">Loading partners…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════ -->
         <!-- PANEL: SETTINGS                   -->
         <!-- ══════════════════════════════════ -->
         <div class="admin-panel" id="panel-settings">
@@ -344,6 +392,52 @@
               <div class="form-group full">
                 <label class="form-label">Google Maps URL</label>
                 <input type="url" class="form-input" id="s-maps-url" placeholder="https://maps.google.com/...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Homepage Marquee / Ticker Manager -->
+          <div class="section-box">
+            <div class="section-box-header">
+              <div>
+                <div class="section-box-title">🌟 Homepage Ticker / Marquee</div>
+                <div class="section-box-subtitle">Dynamic continuous-scrolling photo & logo showcase on the homepage</div>
+              </div>
+              <button class="btn-primary-sm" onclick="saveSettings()">💾 Save Marquee Settings</button>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Marquee Status</label>
+                <select class="form-select" id="s-marquee-enabled">
+                  <option value="true">🟢 Enabled (Visible on Homepage)</option>
+                  <option value="false">🔴 Disabled (Hidden from Homepage)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Section Title / Headline</label>
+                <input type="text" class="form-input" id="s-marquee-title" placeholder="e.g. Trusted by 5,000+ Businesses Across India">
+              </div>
+            </div>
+
+            <!-- Upload Photo Dropzone / File Picker -->
+            <div style="margin-top: 24px;">
+              <label class="form-label" style="margin-bottom:8px; display:block;">Upload Photos / Logos to Marquee</label>
+              <div class="logo-drop-zone" id="marquee-drop-zone" onclick="document.getElementById('marquee-file-input').click()" style="padding: 24px 20px;">
+                <div style="font-size:32px; margin-bottom:8px;">📸</div>
+                <div style="font-size:14px; font-weight:700; color:#e2e8f0; margin-bottom:4px;">Click to select photos or drag &amp; drop here</div>
+                <div style="font-size:12px; color:var(--admin-muted);">PNG, JPG, WebP or SVG (Max 5MB each). Multiple images supported.</div>
+                <input type="file" id="marquee-file-input" accept="image/*" multiple style="display:none;" onchange="uploadMarqueePhotos(this.files)">
+              </div>
+            </div>
+
+            <!-- Current Marquee Photos Gallery -->
+            <div style="margin-top: 24px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <label class="form-label" style="margin-bottom:0;">Current Marquee Photos (<span id="marquee-photos-count">0</span>)</label>
+              </div>
+              <div id="marquee-photos-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px;">
+                <div style="color:var(--admin-muted); font-size:13px; grid-column:1/-1;">No photos uploaded yet.</div>
               </div>
             </div>
           </div>
@@ -480,8 +574,69 @@
   </div>
 
   <!-- ══════════════════════════════════════ -->
+  <!-- PARTNER ADD / EDIT MODAL              -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="admin-modal" id="partner-modal">
+    <div class="admin-modal-card" style="max-width:540px;">
+      <div class="modal-header">
+        <div class="modal-title" id="partner-modal-title">Add Partner</div>
+        <button class="modal-close" onclick="closePartnerModal()">✕</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Partner Name *</label>
+          <input type="text" class="form-input" id="pm-name" placeholder="e.g. Marg ERP">
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-input" id="pm-city" placeholder="e.g. Aligarh, Noida, New Delhi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">State / Region</label>
+          <input type="text" class="form-input" id="pm-state" placeholder="e.g. Uttar Pradesh, Delhi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Display Order</label>
+          <input type="number" class="form-input" id="pm-order" placeholder="0" min="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Visible on Site</label>
+          <select class="form-input" id="pm-visible">
+            <option value="true">Yes — Show publicly</option>
+            <option value="false">No — Hidden</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Website URL</label>
+          <input type="url" class="form-input" id="pm-website" placeholder="https://example.com">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="pm-desc" rows="3" placeholder="Brief description of the partner…"></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Logo</label>
+          <div id="pm-logo-current-wrap" style="margin-bottom:12px; display:none;">
+            <img id="pm-logo-current" src="" alt="Current Logo" style="height:60px; border-radius:8px; border:1px solid var(--admin-border); padding:4px; background:var(--admin-bg-3);">
+            <button class="btn-danger-sm" style="margin-left:10px; vertical-align:middle;" onclick="removePartnerLogo()">Remove Logo</button>
+          </div>
+          <input type="file" class="form-input" id="pm-logo-file" accept="image/*" style="padding:6px;">
+          <div style="font-size:12px; color:var(--admin-muted); margin-top:4px;">PNG, JPG, SVG or WebP. Max 5 MB. Leave blank to keep existing.</div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary-sm" onclick="savePartner()" id="pm-save-btn">💾 Save Partner</button>
+        <button class="btn-ghost-sm" onclick="closePartnerModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
   <!-- CONFIRM DELETE DIALOG                 -->
   <!-- ══════════════════════════════════════ -->
+
   <div class="confirm-dialog" id="confirm-dialog">
     <div class="confirm-card">
       <div style="font-size:40px; margin-bottom:12px;">🗑️</div>
@@ -501,6 +656,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       initLogoUpload();
+      initMarqueeDropZone();
     });
   </script>
 </body>

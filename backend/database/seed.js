@@ -14,6 +14,7 @@ const { MONGODB_URI } = require('../config');
 const Download = require('./models/Download');
 const PricingGroup = require('./models/PricingGroup');
 const Settings = require('./models/Settings');
+const Partner = require('./models/Partner');
 const defaultData = require('./defaultData');
 
 const DATA_DIR = path.join(__dirname, '../data');
@@ -56,6 +57,14 @@ async function seedIfEmpty() {
     const raw = getInitialData('settings');
     await Settings.create({ key: 'main', ...raw });
     console.log('  ⚙️   Auto-seeded site settings into MongoDB.');
+  }
+
+  // ── 4. Partners ───────────────────────────────────────
+  const partnerCount = await Partner.countDocuments();
+  if (partnerCount === 0) {
+    const raw = getInitialData('partners');
+    await Partner.insertMany(raw);
+    console.log(`  🤝  Auto-seeded ${raw.length} partners into MongoDB.`);
   }
 }
 

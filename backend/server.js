@@ -42,6 +42,7 @@ app.use('/api/downloads', require('./routes/downloads'));
 app.use('/api/pricing',   require('./routes/pricing'));
 app.use('/api/logo',      require('./routes/logo'));
 app.use('/api/settings',  require('./routes/settings'));
+app.use('/api/partners',  require('./routes/partners'));
 
 // ── Health check ──
 app.get('/api/health', (req, res) => {

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initMobileAppTabs();
   initDemoModal();
+  initHomepageMarquee();
 });
 
 // Theme Switcher (Dark / Light)
@@ -199,3 +200,70 @@ function showToast(message) {
     toast.classList.remove('show');
   }, 4500);
 }
+
+// ── Dynamic Homepage Marquee ──
+async function initHomepageMarquee() {
+  const marqueeSection = document.getElementById('homepage-marquee');
+  const marqueeTrack = document.getElementById('marquee-track');
+  const marqueeTitle = document.getElementById('marquee-title');
+  if (!marqueeSection || !marqueeTrack) return;
+
+  try {
+    const res = await fetch('/api/settings');
+    if (!res.ok) return;
+    const settings = await res.json();
+
+    // Check if marquee is disabled from admin
+    if (settings.marqueeEnabled === false) {
+      marqueeSection.style.display = 'none';
+      return;
+    }
+
+    if (settings.marqueeTitle && marqueeTitle) {
+      marqueeTitle.textContent = settings.marqueeTitle;
+    }
+
+    let images = settings.marqueeImages || [];
+
+    // Fallback: if no custom marquee images have been uploaded yet, fetch active partner logos or show default brand badges
+    if (images.length === 0) {
+      try {
+        const partnersRes = await fetch('/api/partners');
+        if (partnersRes.ok) {
+          const partners = await partnersRes.json();
+          const partnerLogos = partners.filter(p => p.logo).map(p => p.logo);
+          if (partnerLogos.length > 0) {
+            images = partnerLogos;
+          }
+        }
+      } catch { /* ignore fallback error */ }
+    }
+
+    if (images.length === 0) {
+      marqueeSection.style.display = 'none';
+      return;
+    }
+
+    // Build the item list and duplicate to ensure an unbroken infinite scroll loop
+    const buildItem = (url) => `
+      <div class="marquee-item">
+        <img src="${url}" alt="Client / Partner Logo" onerror="this.parentElement.style.display='none'">
+      </div>`;
+
+    // Repeat items so the track width is wide enough for large viewports
+    let trackItems = [...images];
+    while (trackItems.length < 10) {
+      trackItems = trackItems.concat(images);
+    }
+
+    // Two identical sets for 100% -> 50% seamless loop
+    const firstSet = trackItems.map(buildItem).join('');
+    const secondSet = trackItems.map(buildItem).join('');
+
+    marqueeTrack.innerHTML = firstSet + secondSet;
+    marqueeSection.style.display = 'block';
+  } catch (err) {
+    console.warn('Marquee load failed:', err.message);
+  }
+}
+

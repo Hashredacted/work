@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Partners | Raizada CompuSoft – Marg® ERP Solution Partner</title>
+  <meta name="description"
+    content="Raizada CompuSoft's trusted technology and business partners — Marg ERP, Microsoft Azure, GST compliance, and more — powering best-in-class ERP solutions in Aligarh.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/partners.css">
+  <script>
+    const _t = localStorage.getItem('rcs_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', _t);
+  </script>
+</head>
+
+<body>
+
+  <!-- Top Contact Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-contacts">
+        <span>📍 Shop 16, C.M. Mall, Railway Road, Aligarh</span>
+        <a href="tel:+918938077776">📞 +91 8938077776</a>
+        <a href="mailto:raizadacompusoft@gmail.com">✉️ raizadacompusoft@gmail.com</a>
+      </div>
+      <div class="top-right">
+        <a href="admin.html" class="admin-link">🔒 Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-brand">
+        <img src="assets/logo.png" alt="Raizada CompuSoft" class="logo-img">
+        <div class="logo-text">
+          <span style="font-size:16px; font-weight:800; color:var(--text-primary);">Raizada CompuSoft</span>
+          <span style="font-size:11px; font-weight:600; color:#f59e0b; text-transform:uppercase; letter-spacing:0.5px;">Marg® ERP Solution Partner</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="partners.html" style="color: var(--accent-secondary); font-weight: 700;">Partners</a>
+        <a href="index.html#contact">Contact Us</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="partners-hero">
+    <div class="container">
+      <div class="tagline">🤝 Our Trusted Network</div>
+      <h1>Partners We <span class="gradient-text">Work With</span></h1>
+      <p>We collaborate with industry-leading technology and service companies across regions to deliver the best ERP, cloud, and compliance solutions.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="partners-section">
+    <div class="container">
+
+      <!-- Stats -->
+      <div class="partners-stats" id="partners-stats" style="display:none;">
+        <div class="partner-stat-card">
+          <div class="partner-stat-number" id="stat-total-partners">—</div>
+          <div class="partner-stat-label">Total Partners</div>
+        </div>
+        <div class="partner-stat-card">
+          <div class="partner-stat-number" id="stat-categories-count">—</div>
+          <div class="partner-stat-label">Partner Locations</div>
+        </div>
+      </div>
+
+      <!-- Location Filter Dropdowns -->
+      <div class="partners-filter-bar" id="partners-filter">
+        <span class="filter-label">📍 Filter by</span>
+
+        <div class="filter-select-wrap">
+          <select class="filter-select" id="filter-state" onchange="onStateChange()">
+            <option value="">All States</option>
+          </select>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <div class="filter-select-wrap">
+          <select class="filter-select" id="filter-city" onchange="onCityChange()">
+            <option value="">All Cities</option>
+          </select>
+        </div>
+
+        <button class="filter-reset-btn" onclick="resetFilters()">✕ Clear</button>
+
+        <div class="filter-result-badge" id="filter-result-badge">All Partners</div>
+      </div>
+
+      <!-- Partners Grid -->
+      <div class="partners-grid" id="partners-grid">
+        <!-- Skeleton loaders -->
+        <div class="partner-card" style="opacity:0.4; pointer-events:none;">
+          <div class="partner-logo-wrap"><div class="partner-logo-placeholder">🤝</div></div>
+          <div class="partner-location">📍 Loading...</div>
+          <p class="partner-name" style="background:var(--border-color);color:transparent;border-radius:8px;">Partner Name</p>
+          <p class="partner-desc" style="background:var(--border-color);color:transparent;border-radius:4px;">Description text here...</p>
+        </div>
+        <div class="partner-card" style="opacity:0.25; pointer-events:none;">
+          <div class="partner-logo-wrap"><div class="partner-logo-placeholder">🤝</div></div>
+          <div class="partner-location">📍 Loading...</div>
+          <p class="partner-name" style="background:var(--border-color);color:transparent;border-radius:8px;">Partner Name</p>
+          <p class="partner-desc" style="background:var(--border-color);color:transparent;border-radius:4px;">Description text here...</p>
+        </div>
+        <div class="partner-card" style="opacity:0.15; pointer-events:none;">
+          <div class="partner-logo-wrap"><div class="partner-logo-placeholder">🤝</div></div>
+          <div class="partner-location">📍 Loading...</div>
+          <p class="partner-name" style="background:var(--border-color);color:transparent;border-radius:8px;">Partner Name</p>
+          <p class="partner-desc" style="background:var(--border-color);color:transparent;border-radius:4px;">Description text here...</p>
+        </div>
+      </div>
+
+      <!-- Become a Partner CTA -->
+      <div class="partners-cta">
+        <h2>Interested in Partnering <span class="gradient-text">With Us?</span></h2>
+        <p>We're always open to collaborations that bring value to our customers. Whether you offer technology, services, or regional expertise — let's talk.</p>
+        <div class="partners-cta-actions">
+          <a href="tel:+919927026557" class="btn-primary" style="font-size:16px; padding:14px 32px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">📞 Call Us</a>
+          <a href="mailto:raizadacompusoft@gmail.com" class="btn-secondary" style="font-size:16px; padding:14px 32px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">✉️ Send Email</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="logo-brand footer-logo">
+            <img src="assets/logo.png" alt="Raizada CompuSoft" class="logo-img">
+          </a>
+          <p>Authorized Sales & Service Partner for Marg® ERP Limited. Providing Marg software, GST billing, and mobile apps in Aligarh & UP.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="payroll.html">Payroll (MargHRMS)</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="partners.html">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:8px;">📍 Shop No. 16, 1st Floor, C.M. Mall, Railway Road, Aligarh</p>
+          <p style="font-size:14px; color:var(--text-secondary); margin-bottom:8px;">📞 +91 8938077776, 9690277776, 9927026557</p>
+          <p style="font-size:14px; color:var(--text-secondary);">✉️ raizadacompusoft@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© Copyright Raizada CompuSoft. Authorized Partner for Marg® ERP Limited.</p>
+        <div style="display: flex; gap: 16px;">
+          <a href="admin.html">Staff Login</a>
+          <span>|</span>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/partners.js"></script>
+
+</body>
+
+</html>
