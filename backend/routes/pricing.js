@@ -1,94 +1,115 @@
 // ── routes/pricing.js ──
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const requireAuth = require('../middleware/auth');
+const PricingGroup = require('../database/models/PricingGroup');
 
 const router = express.Router();
-const DATA_FILE = path.join(__dirname, '../data/pricing.json');
-
-function readData() {
-  return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-}
-
-function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
-}
 
 // GET /api/pricing — all groups (public)
-router.get('/', (req, res) => {
-  res.json(readData());
+router.get('/', async (req, res, next) => {
+  try {
+    const groups = await PricingGroup.find({});
+    // Format into object matching old JSON shape: { [group]: items }
+    const result = {};
+    groups.forEach(g => {
+      result[g.group] = g.items;
+    });
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // GET /api/pricing/:group — single group (public)
-router.get('/:group', (req, res) => {
-  const data = readData();
-  const group = req.params.group;
-  if (!data[group]) return res.status(404).json({ error: `Group "${group}" not found.` });
-  res.json(data[group]);
+router.get('/:group', async (req, res, next) => {
+  try {
+    const groupName = req.params.group;
+    const doc = await PricingGroup.findOne({ group: groupName });
+    if (!doc) return res.status(404).json({ error: `Group "${groupName}" not found.` });
+    res.json(doc.items);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // PUT /api/pricing/:group — update a pricing group
-router.put('/:group', requireAuth, (req, res) => {
-  const group = req.params.group;
-  const items = req.body;
+router.put('/:group', requireAuth, async (req, res, next) => {
+  try {
+    const groupName = req.params.group;
+    const items = req.body;
 
-  if (!Array.isArray(items)) {
-    return res.status(400).json({ error: 'Body must be an array of pricing items.' });
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: 'Body must be an array of pricing items.' });
+    }
+
+    // Validate and sanitize each item
+    const sanitized = items.map(item => ({
+      key: String(item.key || '').trim(),
+      label: String(item.label || '').trim(),
+      price: parseInt(item.price, 10) || 0,
+      unit: item.unit !== undefined ? String(item.unit).trim() : '/yr',
+      note: item.note !== undefined ? String(item.note).trim() : '',
+    }));
+
+    const doc = await PricingGroup.findOneAndUpdate(
+      { group: groupName },
+      { group: groupName, items: sanitized },
+      { new: true, upsert: true }
+    );
+
+    res.json(doc.items);
+  } catch (err) {
+    next(err);
   }
-
-  const data = readData();
-
-  // Validate and sanitise each item
-  data[group] = items.map(item => ({
-    key: String(item.key || '').trim(),
-    label: String(item.label || '').trim(),
-    price: parseInt(item.price, 10) || 0,
-    unit: item.unit !== undefined ? String(item.unit).trim() : '/yr',
-    note: item.note !== undefined ? String(item.note).trim() : '',
-  }));
-
-  writeData(data);
-  res.json(data[group]);
 });
 
 // POST /api/pricing/:group/item — add a new price item to a group
-router.post('/:group/item', requireAuth, (req, res) => {
-  const group = req.params.group;
-  const { key, label, price, unit, note } = req.body;
-  if (!label) return res.status(400).json({ error: 'Label is required.' });
+router.post('/:group/item', requireAuth, async (req, res, next) => {
+  try {
+    const groupName = req.params.group;
+    const { key, label, price, unit, note } = req.body;
+    if (!label) return res.status(400).json({ error: 'Label is required.' });
 
-  const data = readData();
-  if (!data[group]) data[group] = [];
+    let doc = await PricingGroup.findOne({ group: groupName });
+    if (!doc) {
+      doc = new PricingGroup({ group: groupName, items: [] });
+    }
 
-  const itemKey = key ? String(key).trim() : `item_${Date.now()}`;
-  const newItem = {
-    key: itemKey,
-    label: String(label).trim(),
-    price: parseInt(price, 10) || 0,
-    unit: unit ? String(unit).trim() : '/yr',
-    note: note ? String(note).trim() : '',
-  };
+    const itemKey = key ? String(key).trim() : `item_${Date.now()}`;
+    const newItem = {
+      key: itemKey,
+      label: String(label).trim(),
+      price: parseInt(price, 10) || 0,
+      unit: unit ? String(unit).trim() : '/yr',
+      note: note ? String(note).trim() : '',
+    };
 
-  data[group].push(newItem);
-  writeData(data);
-  res.status(201).json(newItem);
+    doc.items.push(newItem);
+    await doc.save();
+    res.status(201).json(newItem);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // DELETE /api/pricing/:group/item/:key — delete an item from a group
-router.delete('/:group/item/:key', requireAuth, (req, res) => {
-  const { group, key } = req.params;
-  const data = readData();
-  if (!data[group]) return res.status(404).json({ error: 'Group not found.' });
+router.delete('/:group/item/:key', requireAuth, async (req, res, next) => {
+  try {
+    const { group: groupName, key } = req.params;
+    const doc = await PricingGroup.findOne({ group: groupName });
+    if (!doc) return res.status(404).json({ error: 'Group not found.' });
 
-  const before = data[group].length;
-  data[group] = data[group].filter(item => item.key !== key);
-  if (data[group].length === before) {
-    return res.status(404).json({ error: 'Item not found in group.' });
+    const before = doc.items.length;
+    doc.items = doc.items.filter(item => item.key !== key);
+    if (doc.items.length === before) {
+      return res.status(404).json({ error: 'Item not found in group.' });
+    }
+
+    await doc.save();
+    res.json({ ok: true, key });
+  } catch (err) {
+    next(err);
   }
-
-  writeData(data);
-  res.json({ ok: true, key });
 });
 
 module.exports = router;

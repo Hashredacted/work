@@ -1,5 +1,5 @@
 // ── config.js ──
-// Central configuration — edit these values to customise the deployment.
+// Central configuration — edit these values or override with environment variables.
 
 module.exports = {
   PORT: process.env.PORT || 3001,
@@ -18,4 +18,7 @@ module.exports = {
 
   // Uploads folder (relative to backend/)
   UPLOADS_DIR: './uploads',
+
+  // MongoDB connection URI — override via MONGODB_URI env var or .env file
+  MONGODB_URI: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/rcs_admin',
 };

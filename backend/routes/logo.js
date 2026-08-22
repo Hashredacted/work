@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const requireAuth = require('../middleware/auth');
-const SETTINGS_FILE = path.join(__dirname, '../data/settings.json');
+const Settings = require('../database/models/Settings');
 
 const router = express.Router();
 
@@ -30,55 +30,68 @@ const upload = multer({
   },
 });
 
-function readSettings() {
-  return JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8'));
-}
-
-function writeSettings(data) {
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(data, null, 2), 'utf8');
+async function getOrCreateSettings() {
+  let doc = await Settings.findOne({ key: 'main' });
+  if (!doc) {
+    doc = await Settings.create({ key: 'main' });
+  }
+  return doc;
 }
 
 // GET /api/logo — returns the active logo URL
-router.get('/', (req, res) => {
-  const settings = readSettings();
-  if (settings.logoFile) {
-    res.json({ url: `/uploads/logo/${settings.logoFile}`, custom: true });
-  } else {
-    res.json({ url: '/assets/logo.png', custom: false });
+router.get('/', async (req, res, next) => {
+  try {
+    const settings = await getOrCreateSettings();
+    if (settings.logoFile) {
+      res.json({ url: `/uploads/logo/${settings.logoFile}`, custom: true });
+    } else {
+      res.json({ url: '/assets/logo.png', custom: false });
+    }
+  } catch (err) {
+    next(err);
   }
 });
 
 // POST /api/logo — upload a new logo (multipart/form-data, field: "logo")
-router.post('/', requireAuth, upload.single('logo'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
+router.post('/', requireAuth, upload.single('logo'), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
 
-  // Delete old custom logo if any
-  const settings = readSettings();
-  if (settings.logoFile) {
-    const old = path.join(__dirname, '../uploads/logo', settings.logoFile);
-    if (fs.existsSync(old)) fs.unlinkSync(old);
+    const settings = await getOrCreateSettings();
+
+    // Delete old custom logo file if any
+    if (settings.logoFile) {
+      const old = path.join(__dirname, '../uploads/logo', settings.logoFile);
+      if (fs.existsSync(old)) fs.unlinkSync(old);
+    }
+
+    settings.logoFile = req.file.filename;
+    await settings.save();
+
+    res.json({
+      ok: true,
+      url: `/uploads/logo/${req.file.filename}`,
+      filename: req.file.filename,
+    });
+  } catch (err) {
+    next(err);
   }
-
-  settings.logoFile = req.file.filename;
-  writeSettings(settings);
-
-  res.json({
-    ok: true,
-    url: `/uploads/logo/${req.file.filename}`,
-    filename: req.file.filename,
-  });
 });
 
 // DELETE /api/logo — reset to default logo
-router.delete('/', requireAuth, (req, res) => {
-  const settings = readSettings();
-  if (settings.logoFile) {
-    const old = path.join(__dirname, '../uploads/logo', settings.logoFile);
-    if (fs.existsSync(old)) fs.unlinkSync(old);
-    settings.logoFile = null;
-    writeSettings(settings);
+router.delete('/', requireAuth, async (req, res, next) => {
+  try {
+    const settings = await getOrCreateSettings();
+    if (settings.logoFile) {
+      const old = path.join(__dirname, '../uploads/logo', settings.logoFile);
+      if (fs.existsSync(old)) fs.unlinkSync(old);
+      settings.logoFile = null;
+      await settings.save();
+    }
+    res.json({ ok: true, url: '/assets/logo.png' });
+  } catch (err) {
+    next(err);
   }
-  res.json({ ok: true, url: '/assets/logo.png' });
 });
 
 // Multer error handler

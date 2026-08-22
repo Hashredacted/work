@@ -238,8 +238,8 @@ function renderDownloadsTable() {
         ${d.visible ? '● Live' : '○ Hidden'}</span></td>
       <td>
         <div class="table-actions">
-          <button class="btn-edit-sm" onclick="openEditDownload(${d.id})">✏️ Edit</button>
-          <button class="btn-danger-sm" onclick="confirmDelete(${d.id})">🗑</button>
+          <button class="btn-edit-sm" onclick="openEditDownload('${d.id}')">✏️ Edit</button>
+          <button class="btn-danger-sm" onclick="confirmDelete('${d.id}')">🗑</button>
         </div>
       </td>
     </tr>
@@ -263,7 +263,7 @@ window.openAddDownload = function () {
 };
 
 window.openEditDownload = function (id) {
-  const item = downloads.find(d => d.id === id);
+  const item = downloads.find(d => String(d.id) === String(id));
   if (!item) return;
   editingDownloadId = id;
   document.getElementById('dl-modal-title').textContent = '✏️ Edit Download';
@@ -307,7 +307,7 @@ window.saveDownloadEntry = async function () {
 
 window.confirmDelete = function (id) {
   deleteTargetId = id;
-  const item = downloads.find(d => d.id === id);
+  const item = downloads.find(d => String(d.id) === String(id));
   document.getElementById('confirm-delete-name').textContent = item?.name || 'this entry';
   document.getElementById('confirm-dialog').classList.add('open');
 };

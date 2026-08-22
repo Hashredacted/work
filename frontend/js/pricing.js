@@ -43,7 +43,7 @@ const lblPremium = document.getElementById('lbl-premium');
 const cloudBadge = document.getElementById('cloud-badge');
 
 function updateCloudPrices() {
-  // 1. Update Price Amounts
+  // 1. Update Price Amounts (Cards & Table)
   document.querySelectorAll('.cloud-price').forEach(el => {
     const raw = isPremium ? el.dataset.premium : el.dataset.base;
     const val = parseInt(raw, 10);
@@ -70,32 +70,71 @@ function updateCloudPrices() {
   // 4. Update Toggle Switch & Label States
   if (cloudToggle) {
     cloudToggle.setAttribute('aria-checked', isPremium ? 'true' : 'false');
+    cloudToggle.classList.toggle('on', isPremium);
     cloudToggle.classList.toggle('active', isPremium);
   }
-  if (lblBase) lblBase.classList.toggle('active', !isPremium);
-  if (lblPremium) lblPremium.classList.toggle('active', isPremium);
-
-  // 5. Update Badge text
-  if (cloudBadge) {
-    cloudBadge.textContent = isPremium ? 'Premium Specs Active' : 'Base Specs Active';
+  if (lblBase) {
+    lblBase.classList.toggle('active-label', !isPremium);
+    lblBase.classList.toggle('active', !isPremium);
+  }
+  if (lblPremium) {
+    lblPremium.classList.toggle('active-label', isPremium);
+    lblPremium.classList.toggle('active', isPremium);
   }
 
-  // 6. Update Spec Comparison Rows
-  const specRows = {
-    'cpu': { base: 'Xeon 8-Core Dedicated', premium: 'Xeon 16-Core High-Compute' },
-    'ram': { base: '64 GB High-Speed DDR4', premium: '128 GB High-Speed DDR4' },
-    'backup': { base: '2 Daily Automated', premium: '5 Daily Automated' },
-    'azure': { base: 'Not Available', premium: 'Azure Hybrid Backup Included' },
-    'snapshots': { base: '1 per Day', premium: '4 per Day (Point-in-time)' },
-    'services': { base: 'Comprehensive Support', premium: 'Extensive 24/7 Dedicated' },
-    'dns': { base: 'Marg Domain DNS', premium: 'Customer Domain or Marg DNS' }
-  };
+  // 5. Update Badge text & style
+  if (cloudBadge) {
+    cloudBadge.classList.toggle('premium-badge', isPremium);
+    cloudBadge.textContent = isPremium
+      ? '16-Core Xeon · 5x Daily Backup · Azure Included'
+      : '8-Core Xeon · 2x Daily Backup';
+  }
 
-  Object.keys(specRows).forEach(key => {
-    const el = document.getElementById('spec-' + key);
-    if (el) {
-      el.textContent = isPremium ? specRows[key].premium : specRows[key].base;
-      el.style.color = isPremium ? 'var(--accent-secondary)' : 'var(--text-primary)';
+  // 6. Update Hardware Specs across Cards & Comparison Table
+  document.querySelectorAll('.cloud-feat-hw').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-feat-bk').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-feat-azure').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-feat-azure-icon').forEach(el => {
+    el.innerHTML = isPremium
+      ? '<span class="feature-check">✓</span>'
+      : '<span class="feature-cross">✗</span>';
+  });
+  document.querySelectorAll('.cloud-feat-snap').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-feat-ms').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-feat-dns').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-cost-user').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+    }
+  });
+  document.querySelectorAll('.cloud-table-azure').forEach(el => {
+    if (el.dataset.premium && el.dataset.base) {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.base;
+      el.style.color = isPremium ? 'var(--success-color)' : 'var(--text-muted)';
     }
   });
 }

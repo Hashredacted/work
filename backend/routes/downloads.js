@@ -1,90 +1,93 @@
 // ── routes/downloads.js ──
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const requireAuth = require('../middleware/auth');
+const Download = require('../database/models/Download');
 
 const router = express.Router();
-const DATA_FILE = path.join(__dirname, '../data/downloads.json');
-
-function readData() {
-  return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-}
-
-function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
-}
-
-function nextId(items) {
-  return items.length > 0 ? Math.max(...items.map(d => d.id)) + 1 : 1;
-}
 
 // GET /api/downloads — public (used by downloads.html)
-router.get('/', (req, res) => {
-  const items = readData();
-  // By default return only visible; pass ?all=1 (with auth) for everything
-  if (req.query.all === '1') return res.json(items);
-  res.json(items.filter(d => d.visible));
+router.get('/', async (req, res, next) => {
+  try {
+    if (req.query.all === '1') {
+      const items = await Download.find({}).sort({ createdAt: 1 });
+      return res.json(items);
+    }
+    const items = await Download.find({ visible: true }).sort({ createdAt: 1 });
+    res.json(items);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // GET /api/downloads/all — admin: all entries regardless of visibility
-router.get('/all', requireAuth, (req, res) => {
-  res.json(readData());
+router.get('/all', requireAuth, async (req, res, next) => {
+  try {
+    const items = await Download.find({}).sort({ createdAt: 1 });
+    res.json(items);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // POST /api/downloads — create
-router.post('/', requireAuth, (req, res) => {
-  const { name, subtitle, category, platform, version, size, url, visible } = req.body;
-  if (!name || !url) return res.status(400).json({ error: 'name and url are required.' });
-  const items = readData();
-  const newItem = {
-    id: nextId(items),
-    name: name.trim(),
-    subtitle: (subtitle || '').trim(),
-    category: category || 'erp',
-    platform: (platform || '').trim(),
-    version: (version || 'Latest').trim(),
-    size: (size || '').trim(),
-    url: url.trim(),
-    visible: visible !== false,
-  };
-  items.push(newItem);
-  writeData(items);
-  res.status(201).json(newItem);
+router.post('/', requireAuth, async (req, res, next) => {
+  try {
+    const { name, subtitle, category, platform, version, size, url, visible } = req.body;
+    if (!name || !url) return res.status(400).json({ error: 'name and url are required.' });
+
+    const newItem = new Download({
+      name: name.trim(),
+      subtitle: (subtitle || '').trim(),
+      category: category || 'erp',
+      platform: (platform || '').trim(),
+      version: (version || 'Latest').trim(),
+      size: (size || '').trim(),
+      url: url.trim(),
+      visible: visible !== false,
+    });
+
+    await newItem.save();
+    res.status(201).json(newItem);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // PUT /api/downloads/:id — update
-router.put('/:id', requireAuth, (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const items = readData();
-  const idx = items.findIndex(d => d.id === id);
-  if (idx === -1) return res.status(404).json({ error: 'Entry not found.' });
+router.put('/:id', requireAuth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, subtitle, category, platform, version, size, url, visible } = req.body;
 
-  const { name, subtitle, category, platform, version, size, url, visible } = req.body;
-  items[idx] = {
-    ...items[idx],
-    name: (name || items[idx].name).trim(),
-    subtitle: subtitle !== undefined ? subtitle.trim() : items[idx].subtitle,
-    category: category || items[idx].category,
-    platform: platform !== undefined ? platform.trim() : items[idx].platform,
-    version: version !== undefined ? version.trim() : items[idx].version,
-    size: size !== undefined ? size.trim() : items[idx].size,
-    url: (url || items[idx].url).trim(),
-    visible: visible !== undefined ? visible : items[idx].visible,
-  };
-  writeData(items);
-  res.json(items[idx]);
+    const item = await Download.findById(id);
+    if (!item) return res.status(404).json({ error: 'Entry not found.' });
+
+    if (name !== undefined) item.name = name.trim();
+    if (subtitle !== undefined) item.subtitle = subtitle.trim();
+    if (category !== undefined) item.category = category;
+    if (platform !== undefined) item.platform = platform.trim();
+    if (version !== undefined) item.version = version.trim();
+    if (size !== undefined) item.size = size.trim();
+    if (url !== undefined) item.url = url.trim();
+    if (visible !== undefined) item.visible = visible;
+
+    await item.save();
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // DELETE /api/downloads/:id
-router.delete('/:id', requireAuth, (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  let items = readData();
-  const before = items.length;
-  items = items.filter(d => d.id !== id);
-  if (items.length === before) return res.status(404).json({ error: 'Entry not found.' });
-  writeData(items);
-  res.json({ ok: true, id });
+router.delete('/:id', requireAuth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const item = await Download.findByIdAndDelete(id);
+    if (!item) return res.status(404).json({ error: 'Entry not found.' });
+    res.json({ ok: true, id });
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

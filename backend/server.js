@@ -7,11 +7,16 @@
 //  Port:   3001  (override with PORT env var)
 // ══════════════════════════════════════════════════
 
+// Load .env variables before anything else
+require('dotenv/config');
+
 const express  = require('express');
 const cors     = require('cors');
 const path     = require('path');
 const fs       = require('fs');
 const { PORT, FRONTEND_DIR, UPLOADS_DIR } = require('./config');
+const connectDB = require('./database/db');
+const { seedIfEmpty } = require('./database/seed');
 
 const app = express();
 
@@ -42,6 +47,7 @@ app.use('/api/settings',  require('./routes/settings'));
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
+    database: 'mongodb',
     name: 'Raizada CompuSoft Admin API',
     version: '1.0.0',
     timestamp: new Date().toISOString(),
@@ -64,13 +70,17 @@ app.use((err, req, res, _next) => {
   res.status(err.status || 500).json({ error: err.message || 'Internal server error.' });
 });
 
-// ── Start ──
-app.listen(PORT, () => {
-  console.log('');
-  console.log('  ✅  Raizada CompuSoft Admin Server');
-  console.log(`  🌐  Site      →  http://localhost:${PORT}`);
-  console.log(`  🔒  Admin     →  http://localhost:${PORT}/admin.html`);
-  console.log(`  🛠️  API       →  http://localhost:${PORT}/api`);
-  console.log(`  📁  Frontend  →  ${frontendPath}`);
-  console.log('');
-});
+// ── Connect to MongoDB, auto-seed if needed, then start HTTP server ──
+connectDB()
+  .then(() => seedIfEmpty())
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log('');
+      console.log('  ✅  Raizada CompuSoft Admin Server');
+      console.log(`  🌐  Site      →  http://localhost:${PORT}`);
+      console.log(`  🔒  Admin     →  http://localhost:${PORT}/admin.html`);
+      console.log(`  🛠️  API       →  http://localhost:${PORT}/api`);
+      console.log(`  📁  Frontend  →  ${frontendPath}`);
+      console.log('');
+    });
+  });

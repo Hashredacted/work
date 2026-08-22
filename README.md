@@ -57,19 +57,27 @@ cd backend && npm start
 ```
 work/
 ├── README.md
-├── backend/                        # Node.js / Express server
-│   ├── server.js                   # Entry point — serves frontend + /api on port 3001
-│   ├── config.js                   # Port, password, JWT secret (env-var overridable)
+├── backend/                        # Node.js / Express + Mongoose server
+│   ├── server.js                   # Entry point — connects to MongoDB, auto-seeds, serves frontend + /api on port 3001
+│   ├── config.js                   # Port, password, JWT secret, MongoDB URI
+│   ├── .env                        # Environment variables (MONGODB_URI, PORT, etc.)
 │   ├── package.json
+│   ├── database/                   # MongoDB / Mongoose layer
+│   │   ├── db.js                   # Mongoose connection helper
+│   │   ├── seed.js                 # Seed script (node database/seed.js or npm run seed)
+│   │   └── models/
+│   │       ├── Download.js         # Mongoose schema & model for software downloads
+│   │       ├── PricingGroup.js     # Mongoose schema & model for pricing catalog groups
+│   │       └── Settings.js         # Mongoose schema & model for site settings & logo
 │   ├── middleware/
 │   │   └── auth.js                 # JWT Bearer token verification middleware
 │   ├── routes/
 │   │   ├── auth.js                 # POST /api/auth/login · GET /api/auth/me
-│   │   ├── downloads.js            # Full CRUD  /api/downloads
-│   │   ├── pricing.js              # Read/Update /api/pricing/:group
-│   │   ├── logo.js                 # Upload/reset /api/logo  (Multer)
-│   │   └── settings.js             # Read/Update /api/settings
-│   ├── data/                       # Flat-file JSON persistence (no database needed)
+│   │   ├── downloads.js            # Full CRUD /api/downloads (Mongoose)
+│   │   ├── pricing.js              # Read/Update /api/pricing/:group (Mongoose)
+│   │   ├── logo.js                 # Upload/reset /api/logo (Multer + Settings model)
+│   │   └── settings.js             # Read/Update /api/settings (Mongoose)
+│   ├── data/                       # Initial JSON seed data (kept for seed script & fallback)
 │   │   ├── downloads.json          # 11 seed download entries
 │   │   ├── pricing.json            # ERP / Cloud / HRMS price tables
 │   │   └── settings.json           # Site contact info, address, etc.
